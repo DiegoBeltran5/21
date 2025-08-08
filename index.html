@@ -26,7 +26,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #ffffff;
+            background: #98DBC6;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -154,7 +154,7 @@
             bottom: -150px;
             left: 50%;
             transform: translateX(-50%);
-            color: white;
+            color: #764ba2;
             font-size: 1.5rem;
             text-align: center;
             animation: pulse-text 2s ease-in-out infinite;
@@ -176,9 +176,10 @@
             position: absolute;
             width: 4px;
             height: 4px;
-            background: white;
+            background: #E6D72A;
             border-radius: 50%;
             animation: sparkle 3s linear infinite;
+            box-shadow: 0 0 6px rgba(230, 215, 42, 0.8);
         }
 
         @keyframes sparkle {
@@ -570,13 +571,13 @@
             width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .custom-image-container:hover .custom-image {
             transform: scale(1.05);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
         }
 
         .image-overlay-text {
@@ -657,7 +658,7 @@
             
             <!-- Opción 2: Imagen personalizada -->
             <div class="custom-image-container">
-                <img src="portada.png" alt="Regalo especial" class="custom-image">
+                <img src="URL_DE_TU_IMAGEN_AQUI" alt="Regalo especial" class="custom-image">
                 <!-- Si quieres agregar texto sobre la imagen -->
                 <div class="image-overlay-text">¡Haz click aquí!</div>
                 <div class="sparkles" id="sparkles"></div>
@@ -930,5 +931,4 @@
         });
     </script>
 </body>
-
 </html>
