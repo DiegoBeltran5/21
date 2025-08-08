@@ -166,8 +166,7 @@
         }
 
         .sparkles {
-            position: fixed;
-            inset:0;
+            position: absolute;
             width: 100%;
             height: 100%;
             pointer-events: none;
@@ -763,24 +762,24 @@
 
     <script>
         // Crear sparkles alrededor del regalo
-       function createSparkle() {
-              const sparkle = document.createElement('div');
-              sparkle.className = 'sparkle';
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 100 + Math.random() * 200;
+            sparkle.style.left = `${150 + Math.cos(angle) * distance}px`;
+            sparkle.style.top = `${150 + Math.sin(angle) * distance}px`;
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            sparkle.style.width = sparkle.style.height = (Math.random() * 6 + 4) + 'px';
+            document.getElementById('sparkles').appendChild(sparkle);
             
-              // posición aleatoria en toda la pantalla
-              sparkle.style.left = (Math.random() * window.innerWidth) + 'px';
-              sparkle.style.top  = (Math.random() * window.innerHeight) + 'px';
-            
-              sparkle.style.animationDelay = (Math.random() * 2) + 's';
-              sparkle.style.width = sparkle.style.height = (Math.random() * 5 + 4) + 'px';
-            
-              document.getElementById('sparkles').appendChild(sparkle);
-              setTimeout(() => sparkle.remove(), 2000);
-            }
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
         }
-            
+
         // Crear sparkles cada 300ms
-        const sparkleInterval = setInterval(createSparkle, 40);
+        const sparkleInterval = setInterval(createSparkle, 50);
 
         // Función para abrir el regalo
         function openGift() {
@@ -933,5 +932,3 @@
     </script>
 </body>
 </html>
-
-
