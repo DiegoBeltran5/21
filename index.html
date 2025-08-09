@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Felices 21! 🎉</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Arial', sans-serif;
@@ -19,157 +15,56 @@
             position: relative;
         }
 
-        /* Regalo Inicial */
+        /* Regalo Inicial (pantalla de inicio negra) */
         .gift-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #98DBC6;
+            inset: 0; /* ✨ cambio: más limpio que top/left/width/height */
+            background: #000; /* ✨ cambio: fondo negro */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 1s ease, transform 1s ease;
+            overflow: hidden; /* ✨ por si hay efectos flotando */
         }
 
         .gift-wrapper.hidden {
             opacity: 0;
-            transform: scale(1.5);
+            transform: scale(1.05);
             pointer-events: none;
         }
 
         .gift-container {
             position: relative;
             cursor: pointer;
+            width: min(90vw, 700px); /* ✨ cambio: responsive */
+            /* Si quieres que ocupe toda la pantalla, usa: width: 100vw; */
+            /* y añade: height: 100vh; a .custom-image para cover */
         }
 
-        .gift-box {
-            width: 300px;
-            height: 300px;
-            position: relative;
-            transform-style: preserve-3d;
-        }
-
-        .gift-box-body {
-            width: 300px;
-            height: 250px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            position: absolute;
-            bottom: 0;
-            border-radius: 5px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .gift-box-lid {
-            width: 300px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff9999 0%, #ff6b6b 100%);
-            position: absolute;
-            top: -30px;
-            left: 0;
-            border-radius: 5px;
-            box-shadow: 0 -10px 20px rgba(0,0,0,0.2);
-            transform-origin: bottom;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .gift-box-lid.open {
-            transform: rotateX(-90deg);
-        }
-
-        .gift-container:hover .gift-box-lid:not(.open) {
-            transform: rotateX(-15deg);
-        }
-
-        .gift-ribbon-vertical {
-            width: 40px;
-            height: 100%;
-            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px rgba(255,215,0,0.5);
-        }
-
-        .gift-ribbon-horizontal {
+        /* Imagen inicial responsive */
+        .custom-image-container { position: relative; width: 100%; }
+        .custom-image {
             width: 100%;
-            height: 40px;
-            background: linear-gradient(180deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            box-shadow: 0 0 10px rgba(255,215,0,0.5);
+            height: auto;            /* ✨ asegura proporción */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); /* más contraste en negro */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            display: block;
         }
 
-        .gift-bow {
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        .custom-image-container:hover .custom-image {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
         }
 
-        .gift-box-lid.open ~ .gift-bow {
-            transform: translateX(-50%) rotateX(-90deg);
-        }
-
-        .bow-left, .bow-right {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            border-radius: 50% 15% 50% 50%;
-            position: absolute;
-            top: 20px;
-            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
-        }
-
-        .bow-left {
-            left: 0;
-            transform: rotate(-30deg);
-        }
-
-        .bow-right {
-            right: 0;
-            transform: rotate(30deg) scaleX(-1);
-        }
-
-        .bow-center {
-            width: 30px;
-            height: 40px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 50%;
-            box-shadow: 0 3px 10px rgba(255,215,0,0.3);
-        }
-
-        .open-text {
-            position: absolute;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #764ba2;
-            font-size: 1.5rem;
-            text-align: center;
-            animation: pulse-text 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-text {
-            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
-            50% { opacity: 0.7; transform: translateX(-50%) scale(1.05); }
-        }
-
+        /* Sparkles a pantalla completa en la portada */
         .sparkles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            position: fixed; /* ✨ cambio clave: cubrir todo */
+            inset: 0;
             pointer-events: none;
+            overflow: visible;
+            z-index: 10000; /* sobre la imagen, bajo el click (no bloquea) */
         }
 
         .sparkle {
@@ -178,32 +73,16 @@
             height: 4px;
             background: #E6D72A;
             border-radius: 50%;
-            animation: sparkle 3s linear infinite;
+            animation: sparkle 3s linear forwards;
             box-shadow: 0 0 6px rgba(230, 215, 42, 0.8);
+            opacity: 0;
         }
 
         @keyframes sparkle {
-            0% {
-                opacity: 0;
-                transform: translateY(0) scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(-20px) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-40px) scale(0);
-            }
-        }
-
-        /* Crear más sparkles visibles */
-        .sparkles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: visible;
+            0%   { opacity: 0; transform: translateY(0) scale(0.6); }
+            20%  { opacity: 1; }
+            60%  { opacity: 1; transform: translateY(-30px) scale(1); }
+            100% { opacity: 0; transform: translateY(-60px) scale(0.4); }
         }
 
         /* Contenido Principal (oculto inicialmente) */
@@ -212,98 +91,53 @@
             visibility: hidden;
             transition: opacity 2s ease;
         }
-
         .main-content.visible {
             opacity: 1;
             visibility: visible;
         }
 
-        /* Partículas animadas de fondo */
+        /* Partículas animadas de fondo (después de abrir) */
         .particle {
             position: fixed;
             pointer-events: none;
             opacity: 0;
             animation: float 15s infinite;
         }
-
         @keyframes float {
-            0% {
-                opacity: 0;
-                transform: translateY(100vh) rotate(0deg);
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh) rotate(720deg);
-            }
+            0%   { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh) rotate(720deg); }
         }
 
         /* Hero Section */
         .hero {
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-            color: white;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative; text-align: center; color: white;
         }
 
         .number-21 {
-            font-size: 15rem;
-            font-weight: bold;
+            font-size: 15rem; font-weight: bold;
             background: linear-gradient(45deg, #E6D72A, #F18D9E, #5BC8AC, #98DBC6);
             background-size: 400% 400%;
-            -webkit-background-clip: text;
-            background-clip: text;
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradient 3s ease infinite, pulse 2s ease-in-out infinite;
             text-shadow: 0 0 80px rgba(152, 219, 198, 0.5);
             margin-bottom: 20px;
         }
-
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards 0.5s;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards 1s;
-            max-width: 600px;
-            padding: 0 20px;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; opacity: 0; animation: fadeInUp 1s ease forwards 0.5s; }
+        .hero p  { font-size: 1.5rem; opacity: 0; animation: fadeInUp 1s ease forwards 1s; max-width: 600px; padding: 0 20px; }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
 
         /* Sección de Memorias */
         .memories {
@@ -315,578 +149,192 @@
             border-radius: 30px;
             border: 2px solid rgba(152, 219, 198, 0.3);
         }
-
         .memories h2 {
-            text-align: center;
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
+            text-align: center; color: white; font-size: 2.5rem; margin-bottom: 50px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
+            gap: 30px; margin-bottom: 50px;
         }
-
         .memory-card {
             background: rgba(255,255,255,0.9);
-            border-radius: 20px;
-            padding: 30px;
-            transform: translateY(0);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border: 3px solid #E6D72A;
-            box-shadow: 0 10px 30px rgba(230, 215, 42, 0.2);
+            border-radius: 20px; padding: 30px;
+            transform: translateY(0); transition: all 0.3s ease; cursor: pointer;
+            position: relative; overflow: hidden;
+            border: 3px solid #E6D72A; box-shadow: 0 10px 30px rgba(230, 215, 42, 0.2);
         }
-
         .memory-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            content: ''; position: absolute; inset: 0;
             background: linear-gradient(135deg, #5BC8AC, #98DBC6);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
+            opacity: 0; transition: opacity 0.3s ease; z-index: -1;
         }
-
         .memory-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 40px rgba(241, 141, 158, 0.4);
-            color: white;
-            border-color: #F18D9E;
+            color: white; border-color: #F18D9E;
         }
-
-        .memory-card:hover::before {
-            opacity: 1;
-        }
-
-        .memory-card h3 {
-            color: #F18D9E;
-            margin-bottom: 15px;
-            transition: color 0.3s ease;
-            font-size: 1.4rem;
-            text-shadow: 1px 1px 2px rgba(241, 141, 158, 0.2);
-        }
-
-        .memory-card:hover h3 {
-            color: white;
-        }
-
-        .memory-card p {
-            color: #666;
-            line-height: 1.6;
-            transition: color 0.3s ease;
-        }
-
-        .memory-card:hover p {
-            color: rgba(255,255,255,0.9);
-        }
+        .memory-card:hover::before { opacity: 1; }
+        .memory-card h3 { color: #F18D9E; margin-bottom: 15px; transition: color 0.3s ease; font-size: 1.4rem; text-shadow: 1px 1px 2px rgba(241, 141, 158, 0.2); }
+        .memory-card:hover h3 { color: white; }
+        .memory-card p { color: #666; line-height: 1.6; transition: color 0.3s ease; }
+        .memory-card:hover p { color: rgba(255,255,255,0.9); }
 
         /* Sección de Deseos */
         .wishes {
-            text-align: center;
-            padding: 80px 20px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 30px;
-            max-width: 900px;
-            margin: 50px auto;
+            text-align: center; padding: 80px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 30px;
+            max-width: 900px; margin: 50px auto;
         }
-
-        .wishes h2 {
-            color: #5BC8AC;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-        }
-
-        .wish-text {
-            font-size: 1.2rem;
-            line-height: 2;
-            color: #555;
-            margin-bottom: 40px;
-        }
+        .wishes h2 { color: #5BC8AC; font-size: 2.5rem; margin-bottom: 30px; }
+        .wish-text { font-size: 1.2rem; line-height: 2; color: #555; margin-bottom: 40px; }
 
         /* Cuenta Regresiva */
         .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 50px 0;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 30px;
+            margin: 50px 0; flex-wrap: wrap;
         }
-
         .countdown-item {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            min-width: 100px;
+            background: white; border-radius: 15px; padding: 20px; min-width: 100px;
             box-shadow: 0 10px 30px rgba(91, 200, 172, 0.2);
-            transition: transform 0.3s ease;
-            border: 2px solid #98DBC6;
+            transition: transform 0.3s ease; border: 2px solid #98DBC6;
         }
-
-        .countdown-item:hover {
-            transform: translateY(-5px);
-            border-color: #5BC8AC;
-        }
-
-        .countdown-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #5BC8AC;
-        }
-
-        .countdown-label {
-            color: #666;
-            margin-top: 10px;
-        }
+        .countdown-item:hover { transform: translateY(-5px); border-color: #5BC8AC; }
+        .countdown-number { font-size: 3rem; font-weight: bold; color: #5BC8AC; }
+        .countdown-label { color: #666; margin-top: 10px; }
 
         /* Botón Especial */
         .special-button {
-            display: inline-block;
-            padding: 20px 60px;
+            display: inline-block; padding: 20px 60px;
             background: linear-gradient(45deg, #F18D9E, #E6D72A);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
+            color: white; text-decoration: none; border-radius: 50px;
+            font-size: 1.2rem; font-weight: bold; margin-top: 30px;
+            transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
-
         .special-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(91, 200, 172, 0.3);
-            transition: left 0.5s ease;
+            content: ''; position: absolute; inset: 0; left: -100%;
+            background: rgba(91, 200, 172, 0.3); transition: left 0.5s ease;
         }
-
-        .special-button:hover::before {
-            left: 100%;
-        }
-
-        .special-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(241, 141, 158, 0.3);
-        }
+        .special-button:hover::before { left: 100%; }
+        .special-button:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(241, 141, 158, 0.3); }
 
         /* Confetti */
         .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
-            position: absolute;
+            position: absolute; width: 10px; height: 10px; background: #f0f;
             animation: confetti-fall 3s linear infinite;
         }
-
         @keyframes confetti-fall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
         /* Galería de Regalos - Carrusel */
         .gift-carousel {
-            padding: 80px 20px;
-            max-width: 900px;
-            margin: 0 auto;
+            padding: 80px 20px; max-width: 900px; margin: 0 auto;
         }
-
         .gift-carousel h2 {
-            text-align: center;
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
+            text-align: center; color: white; font-size: 2.5rem; margin-bottom: 50px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-
-        .carousel {
-            position: relative;
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .carousel-inner {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .carousel-item {
-            display: none;
-            position: relative;
-            width: 100%;
-        }
-
-        .carousel-item.active {
-            display: block;
-        }
+        .carousel { position: relative; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .carousel-inner { position: relative; width: 100%; overflow: hidden; }
+        .carousel-item { display: none; position: relative; width: 100%; }
+        .carousel-item.active { display: block; }
 
         /* Carta que gira */
         .gift-card-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
-            margin: 0 auto;
-            perspective: 1000px;
-            cursor: pointer;
+            position: relative; width: 100%; max-width: 800px; height: 500px; margin: 0 auto;
+            perspective: 1000px; cursor: pointer;
         }
+        @media (min-width: 1200px) { .gift-card-container { max-width: 900px; height: 600px; } }
+        @media (min-width: 1600px) { .gift-card-container { max-width: 1000px; height: 650px; } }
 
-        @media (min-width: 1200px) {
-            .gift-card-container {
-                max-width: 900px;
-                height: 600px;
-            }
-        }
-
-        @media (min-width: 1600px) {
-            .gift-card-container {
-                max-width: 1000px;
-                height: 650px;
-            }
-        }
-
-        .gift-card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s;
-        }
-
-        .gift-card.flipped {
-            transform: rotateY(180deg);
-        }
-
+        .gift-card { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.8s; }
+        .gift-card.flipped { transform: rotateY(180deg); }
         .gift-card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            overflow: hidden;
+            position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px; overflow: hidden;
         }
-
-        .gift-card-front {
-            background: linear-gradient(135deg, #98DBC6, #5BC8AC);
-            border: 4px solid #E6D72A;
-            padding: 0;
-        }
-
-        .gift-card-back {
-            background: white;
-            transform: rotateY(180deg);
-            border: 4px solid #F18D9E;
-        }
-
-        .gift-icon {
-            font-size: 8rem;
-            margin-bottom: 30px;
-        }
-
-        .gift-image-custom {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-        }
-
-        .gift-back-title {
-            font-size: 2rem;
-            color: #F18D9E;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .gift-back-text {
-            font-size: 1.2rem;
-            color: #666;
-            text-align: center;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
+        .gift-card-front { background: linear-gradient(135deg, #98DBC6, #5BC8AC); border: 4px solid #E6D72A; padding: 0; }
+        .gift-card-back { background: white; transform: rotateY(180deg); border: 4px solid #F18D9E; }
+        .gift-image-custom { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+        .gift-back-title { font-size: 2rem; color: #F18D9E; font-weight: bold; margin-bottom: 20px; }
+        .gift-back-text  { font-size: 1.2rem; color: #666; text-align: center; line-height: 1.8; margin-bottom: 30px; max-width: 600px; }
 
         @media (min-width: 1200px) {
-            .gift-back-title {
-                font-size: 2.5rem;
-                margin-bottom: 30px;
-            }
-            
-            .gift-back-text {
-                font-size: 1.4rem;
-                line-height: 2;
-            }
-            
-            .gift-link {
-                font-size: 1.3rem;
-                padding: 20px 50px;
-            }
+            .gift-back-title { font-size: 2.5rem; margin-bottom: 30px; }
+            .gift-back-text  { font-size: 1.4rem; line-height: 2; }
+            .gift-link { font-size: 1.3rem; padding: 20px 50px; }
         }
 
         .gift-link {
-            display: inline-block;
-            padding: 15px 40px;
+            display: inline-block; padding: 15px 40px;
             background: linear-gradient(45deg, #F18D9E, #E6D72A);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            color: white; text-decoration: none; border-radius: 30px; font-size: 1.1rem;
+            transition: all 0.3s ease; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
-
-        .gift-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(230, 215, 42, 0.3);
-        }
+        .gift-link:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(230, 215, 42, 0.3); }
 
         /* Controles del carrusel */
         .carousel-control-prev,
         .carousel-control-next {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 15%;
-            color: #fff;
-            text-align: center;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-            cursor: pointer;
-            z-index: 1;
-            background: none;
-            border: none;
+            position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
+            width: 15%; color: #fff; text-align: center; opacity: 0.8; transition: opacity 0.3s; cursor: pointer; z-index: 1; background: none; border: none;
         }
-
-        .carousel-control-prev:hover,
-        .carousel-control-next:hover {
-            opacity: 1;
-        }
-
-        .carousel-control-prev {
-            left: 0;
-        }
-
-        .carousel-control-next {
-            right: 0;
-        }
-
+        .carousel-control-prev:hover, .carousel-control-next:hover { opacity: 1; }
+        .carousel-control-prev { left: 0; } .carousel-control-next { right: 0; }
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: #5BC8AC;
-            border-radius: 50%;
-            position: relative;
+            display: inline-block; width: 40px; height: 40px; background: #5BC8AC; border-radius: 50%; position: relative;
         }
-
         .carousel-control-prev-icon::before,
         .carousel-control-next-icon::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 0;
-            height: 0;
-            border-style: solid;
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 0; height: 0; border-style: solid;
         }
-
-        .carousel-control-prev-icon::before {
-            border-width: 10px 15px 10px 0;
-            border-color: transparent white transparent transparent;
-            margin-left: -5px;
-        }
-
-        .carousel-control-next-icon::before {
-            border-width: 10px 0 10px 15px;
-            border-color: transparent transparent transparent white;
-            margin-left: 5px;
-        }
+        .carousel-control-prev-icon::before { border-width: 10px 15px 10px 0; border-color: transparent white transparent transparent; margin-left: -5px; }
+        .carousel-control-next-icon::before { border-width: 10px 0 10px 15px; border-color: transparent transparent transparent white; margin-left: 5px; }
 
         /* Indicadores */
         .carousel-indicators {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 2;
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 10px; z-index: 2; list-style: none; padding: 0; margin: 0;
         }
-
         .carousel-indicators li {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s ease;
         }
+        .carousel-indicators li.active { background: #E6D72A; transform: scale(1.3); }
 
-        .carousel-indicators li.active {
-            background: #E6D72A;
-            transform: scale(1.3);
-        }
-
-        /* Texto de ayuda */
-        .carousel-help {
-            text-align: center;
-            color: rgba(255,255,255,0.8);
-            margin-top: 20px;
-            font-size: 1.1rem;
-        }
+        .carousel-help { text-align: center; color: rgba(255,255,255,0.8); margin-top: 20px; font-size: 1.1rem; }
 
         /* Footer */
-        .footer {
-            text-align: center;
-            padding: 50px 20px;
-            color: white;
-        }
+        .footer { text-align: center; padding: 50px 20px; color: white; }
+        .footer h3 { font-size: 2rem; margin-bottom: 20px; }
+        .heart { display: inline-block; color: #F18D9E; font-size: 2rem; animation: heartbeat 1.5s ease-in-out infinite; }
+        @keyframes heartbeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
 
-        .footer h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .heart {
-            display: inline-block;
-            color: #F18D9E;
-            font-size: 2rem;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Estilos para imagen personalizada */
-        .custom-image-container {
-            position: relative;
-            max-width: 500px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .custom-image {
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .custom-image-container:hover .custom-image {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-        }
-
-        .image-overlay-text {
-            display: none;
-        }
-
-        /* Responsive */
+        /* Responsive finos */
         @media (max-width: 768px) {
-            .gift-box {
-                width: 200px;
-                height: 200px;
-            }
-            .gift-box-body {
-                width: 200px;
-                height: 166px;
-            }
-            .gift-box-lid {
-                width: 213px;
-                height: 47px;
-                top: -47px;
-                left: -6.5px;
-            }
-            .number-21 {
-                font-size: 8rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1.2rem;
-            }
-            .countdown-item {
-                min-width: 80px;
-            }
-            .countdown-number {
-                font-size: 2rem;
-            }
-            .gift-card-container {
-                height: 350px;
-            }
-            .gift-back-title {
-                font-size: 1.5rem;
-            }
-            .gift-back-text {
-                font-size: 1rem;
-            }
-            .carousel-help {
-                font-size: 1rem;
-            }
+            .number-21 { font-size: 8rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero p  { font-size: 1.2rem; }
+            .countdown-item { min-width: 80px; }
+            .countdown-number { font-size: 2rem; }
+            .gift-card-container { height: 350px; }
+            .gift-back-title { font-size: 1.5rem; }
+            .gift-back-text  { font-size: 1rem; }
+            .carousel-help { font-size: 1rem; }
         }
-
         @media (max-width: 480px) {
-            .gift-card-container {
-                height: 300px;
-            }
-            .gift-card-face {
-                padding: 0px;
-            }
-            .gift-back-title {
-                font-size: 1.3rem;
-                margin-bottom: 15px;
-            }
-            .gift-back-text {
-                font-size: 0.9rem;
-                margin-bottom: 20px;
-            }
-            .gift-link {
-                padding: 12px 30px;
-                font-size: 1rem;
-            }
+            .gift-card-container { height: 300px; }
+            .gift-card-face { padding: 0px; }
+            .gift-back-title { font-size: 1.3rem; margin-bottom: 15px; }
+            .gift-back-text  { font-size: 0.9rem; margin-bottom: 20px; }
+            .gift-link { padding: 12px 30px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -894,30 +342,12 @@
     <!-- Regalo de apertura -->
     <div class="gift-wrapper" id="giftWrapper">
         <div class="gift-container" onclick="openGift()">
-            <!-- Opción 1: Regalo 3D original (comentado) -->
-            <!--
-            <div class="gift-box">
-                <div class="gift-box-body">
-                    <div class="gift-ribbon-vertical"></div>
-                    <div class="gift-ribbon-horizontal"></div>
-                </div>
-                <div class="gift-box-lid">
-                </div>
-                <div class="gift-bow">
-                    <div class="bow-left"></div>
-                    <div class="bow-right"></div>
-                    <div class="bow-center"></div>
-                </div>
-                <div class="sparkles" id="sparkles"></div>
-            </div>
-            -->
-            
-            <!-- Opción 2: Imagen personalizada -->
             <div class="custom-image-container">
                 <img src="portada.png" alt="Regalo especial" class="custom-image">
-                <div class="sparkles" id="sparkles"></div>
             </div>
         </div>
+        <!-- ✨ sparkles a pantalla completa (movido fuera del box de imagen) -->
+        <div class="sparkles" id="sparkles"></div>
     </div>
 
     <!-- Contenido Principal -->
@@ -1034,30 +464,12 @@
         <section class="memories">
             <h2>21 Razones Por Las Que Eres Especial</h2>
             <div class="memory-grid">
-                <div class="memory-card">
-                    <h3>Tu Sonrisa ✨</h3>
-                    <p>Esa sonrisa que ilumina hasta los días más grises y hace que todo valga la pena.</p>
-                </div>
-                <div class="memory-card">
-                    <h3>Tu Valentía 💪</h3>
-                    <p>Por enfrentar cada desafío con determinación y nunca rendirte ante las adversidades.</p>
-                </div>
-                <div class="memory-card">
-                    <h3>Tu Creatividad 🎨</h3>
-                    <p>La forma única en que ves el mundo y creas belleza en todo lo que tocas.</p>
-                </div>
-                <div class="memory-card">
-                    <h3>Tu Bondad 💝</h3>
-                    <p>Por tener el corazón más grande y siempre estar dispuesto/a a ayudar a los demás.</p>
-                </div>
-                <div class="memory-card">
-                    <h3>Nuestra Historia 📖</h3>
-                    <p>Cada momento compartido se ha convertido en un tesoro invaluable en mi corazón.</p>
-                </div>
-                <div class="memory-card">
-                    <h3>Tu Pasión 🔥</h3>
-                    <p>La intensidad con la que vives cada momento y persigues tus sueños.</p>
-                </div>
+                <div class="memory-card"><h3>Tu Sonrisa ✨</h3><p>Esa sonrisa que ilumina hasta los días más grises y hace que todo valga la pena.</p></div>
+                <div class="memory-card"><h3>Tu Valentía 💪</h3><p>Por enfrentar cada desafío con determinación y nunca rendirte ante las adversidades.</p></div>
+                <div class="memory-card"><h3>Tu Creatividad 🎨</h3><p>La forma única en que ves el mundo y creas belleza en todo lo que tocas.</p></div>
+                <div class="memory-card"><h3>Tu Bondad 💝</h3><p>Por tener el corazón más grande y siempre estar dispuesto/a a ayudar a los demás.</p></div>
+                <div class="memory-card"><h3>Nuestra Historia 📖</h3><p>Cada momento compartido se ha convertido en un tesoro invaluable en mi corazón.</p></div>
+                <div class="memory-card"><h3>Tu Pasión 🔥</h3><p>La intensidad con la que vives cada momento y persigues tus sueños.</p></div>
             </div>
         </section>
 
@@ -1069,23 +481,12 @@
                 sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad 
                 para brillar y que nunca olvides lo extraordinario/a que eres.
             </div>
-            
             <!-- Cuenta Regresiva hasta Medianoche -->
             <div class="countdown" id="countdown">
-                <div class="countdown-item">
-                    <div class="countdown-number" id="hours">00</div>
-                    <div class="countdown-label">Horas</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="minutes">00</div>
-                    <div class="countdown-label">Minutos</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="seconds">00</div>
-                    <div class="countdown-label">Segundos</div>
-                </div>
+                <div class="countdown-item"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Horas</div></div>
+                <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Minutos</div></div>
+                <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Segundos</div></div>
             </div>
-
             <a class="special-button" onclick="showSurprise()">¡Haz Click Para Una Sorpresa!</a>
         </section>
 
@@ -1097,148 +498,106 @@
     </div>
 
     <script>
-        // Crear sparkles alrededor del regalo
+        // ✨ Sparkles a pantalla completa (mejor rendimiento)
+        const sparklesContainer = document.getElementById('sparkles');
         function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 100 + Math.random() * 200;
-            sparkle.style.left = `${150 + Math.cos(angle) * distance}px`;
-            sparkle.style.top = `${150 + Math.sin(angle) * distance}px`;
-            sparkle.style.animationDelay = Math.random() * 2 + 's';
-            sparkle.style.width = sparkle.style.height = (Math.random() * 6 + 4) + 'px';
-            document.getElementById('sparkles').appendChild(sparkle);
-            
-            setTimeout(() => {
-                sparkle.remove();
-            }, 2000);
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            // posición en toda la pantalla
+            s.style.left = (Math.random() * 100) + 'vw';
+            s.style.top  = (Math.random() * 100) + 'vh';
+            // tamaño y tiempos variables
+            const size = (Math.random() * 6 + 3);
+            s.style.width = s.style.height = size + 'px';
+            s.style.animationDuration = (2 + Math.random() * 2) + 's';
+            s.style.animationDelay = (Math.random() * 1) + 's';
+            sparklesContainer.appendChild(s);
+            // limpiar al terminar
+            setTimeout(() => s.remove(), 4000);
         }
-
-        // Crear sparkles cada 300ms
-        const sparkleInterval = setInterval(createSparkle, 50);
+        // ritmo moderado para no saturar la GPU
+        const sparkleInterval = setInterval(createSparkle, 120); /* ✨ cambio */
 
         // Función para abrir el regalo
         function openGift() {
             const giftWrapper = document.getElementById('giftWrapper');
             const mainContent = document.getElementById('mainContent');
-            
-            // Para el regalo 3D original (si lo usas)
-            const giftLid = document.querySelector('.gift-box-lid');
-            if (giftLid) {
-                giftLid.classList.add('open');
-            }
-            
-            // Para imagen personalizada - agregar efecto de zoom
+
+            // pequeño zoom a la imagen
             const customImage = document.querySelector('.custom-image');
             if (customImage) {
-                customImage.style.transform = 'scale(1.2)';
-                customImage.style.opacity = '0.8';
+                customImage.style.transform = 'scale(1.1)';
+                customImage.style.opacity = '0.85';
             }
-            
-            // Esperar un poco para que se vea la animación
+
+            // confetti rápido
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = '50%';
+                confetti.style.top = '50%';
+                confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random()*0.5 + 's';
+                confetti.style.transform = `translate(-50%, -50%) translate(${(Math.random()-0.5)*500}px, ${(Math.random()-0.5)*500}px)`;
+                giftWrapper.appendChild(confetti);
+            }
+
             setTimeout(() => {
-                // Detener la creación de sparkles
-                clearInterval(sparkleInterval);
-                
-                // Crear explosión de confetti
-                for (let i = 0; i < 150; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = '50%';
-                    confetti.style.top = '50%';
-                    confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    confetti.style.transform = `translate(-50%, -50%) translate(${(Math.random() - 0.5) * 500}px, ${(Math.random() - 0.5) * 500}px)`;
-                    giftWrapper.appendChild(confetti);
-                }
-                
-                // Animar la desaparición del regalo
-                setTimeout(() => {
-                    giftWrapper.classList.add('hidden');
-                    mainContent.classList.add('visible');
-                    
-                    // Remover el wrapper del regalo después de la animación
-                    setTimeout(() => {
-                        giftWrapper.remove();
-                    }, 1000);
-                }, 500);
-            }, 800);
+                clearInterval(sparkleInterval); // ✨ detener sparkles
+                giftWrapper.classList.add('hidden');
+                mainContent.classList.add('visible');
+                setTimeout(() => giftWrapper.remove(), 1000);
+            }, 700);
         }
 
-        // Crear partículas flotantes (para después de abrir el regalo)
+        // Partículas flotantes (después de abrir)
         function createParticle() {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.innerHTML = ['🎈', '🎉', '🎊', '✨', '🎁', '🎂'][Math.floor(Math.random() * 6)];
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            particle.style.filter = `hue-rotate(${Math.random() * 60 - 30}deg)`;
-            
+            particle.style.left = Math.random()*100 + 'vw';
+            particle.style.animationDelay = Math.random()*15 + 's';
+            particle.style.fontSize = (Math.random()*20 + 20) + 'px';
+            particle.style.filter = `hue-rotate(${Math.random()*60 - 30}deg)`;
             const particlesContainer = document.getElementById('particles');
-            if (particlesContainer) {
-                particlesContainer.appendChild(particle);
-                
-                setTimeout(() => {
-                    particle.remove();
-                }, 15000);
-            }
+            particlesContainer.appendChild(particle);
+            setTimeout(() => particle.remove(), 15000);
         }
-
-        // Comenzar a crear partículas después de abrir el regalo
-        setTimeout(() => {
-            setInterval(createParticle, 1000);
-        }, 3000);
+        setTimeout(() => { setInterval(createParticle, 1000); }, 3000);
 
         // Cuenta regresiva
         function updateCountdown() {
             const now = new Date();
-            const midnight = new Date();
-            midnight.setHours(24, 0, 0, 0);
-            
+            const midnight = new Date(); midnight.setHours(24,0,0,0);
             const diff = midnight - now;
-            
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            const hoursEl = document.getElementById('hours');
-            const minutesEl = document.getElementById('minutes');
-            const secondsEl = document.getElementById('seconds');
-            
-            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+            const hours = Math.max(0, Math.floor(diff / (1000*60*60)));
+            const minutes = Math.max(0, Math.floor((diff % (1000*60*60)) / (1000*60)));
+            const seconds = Math.max(0, Math.floor((diff % (1000*60)) / 1000));
+            const H = document.getElementById('hours');
+            const M = document.getElementById('minutes');
+            const S = document.getElementById('seconds');
+            if (H) H.textContent = String(hours).padStart(2,'0');
+            if (M) M.textContent = String(minutes).padStart(2,'0');
+            if (S) S.textContent = String(seconds).padStart(2,'0');
         }
+        setInterval(updateCountdown, 1000); updateCountdown();
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // Función de sorpresa
+        // Sorpresa
         function showSurprise() {
-            // Crear confetti
             for (let i = 0; i < 100; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.left = Math.random()*100 + 'vw';
+                confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random()*3 + 's';
                 document.body.appendChild(confetti);
-                
-                setTimeout(() => {
-                    confetti.remove();
-                }, 3000);
+                setTimeout(() => confetti.remove(), 3000);
             }
-            
             alert('¡Te amo! 💕 Este día es tan especial como tú. ¡Felices 21!');
         }
 
-        // Animación de las tarjetas al hacer scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
+        // Animación al hacer scroll en tarjetas
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1248,7 +607,6 @@
             });
         }, observerOptions);
 
-        // Observar las tarjetas cuando se abra el regalo
         setTimeout(() => {
             document.querySelectorAll('.memory-card').forEach(card => {
                 card.style.opacity = '0';
@@ -1258,83 +616,39 @@
             });
         }, 3000);
 
-        // Personalización de fotos (puedes agregar URLs de fotos reales)
-        document.querySelectorAll('.photo-item').forEach((item, index) => {
-            item.addEventListener('click', () => {
-                item.innerHTML = '¡Momento Especial! 💕';
-                item.style.background = 'linear-gradient(135deg, #ff0066, #ff9900)';
-            });
-        });
-
-        // Carrusel de regalos
+        // Carrusel
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-item');
         const indicators = document.querySelectorAll('.carousel-indicators li');
 
         function showSlide(index) {
-            // Ocultar todos los slides
-            slides.forEach(slide => {
-                slide.classList.remove('active', 'carousel-item-next', 'carousel-item-prev');
-            });
-            
-            // Actualizar indicadores
-            indicators.forEach(indicator => {
-                indicator.classList.remove('active');
-            });
-            
-            // Mostrar el slide actual
+            slides.forEach(slide => slide.classList.remove('active','carousel-item-next','carousel-item-prev'));
+            indicators.forEach(ind => ind.classList.remove('active'));
             slides[index].classList.add('active');
             indicators[index].classList.add('active');
-            
             currentSlide = index;
         }
-
         function changeSlide(direction) {
-            // Resetear todas las tarjetas volteadas
-            document.querySelectorAll('.gift-card').forEach(card => {
-                card.classList.remove('flipped');
-            });
-            
-            let nextSlide;
-            if (direction === 'next') {
-                nextSlide = (currentSlide + 1) % slides.length;
-            } else {
-                nextSlide = (currentSlide - 1 + slides.length) % slides.length;
-            }
-            
-            // Ocultar el slide actual
+            document.querySelectorAll('.gift-card').forEach(card => card.classList.remove('flipped'));
+            const next = direction === 'next' ? (currentSlide + 1) % slides.length : (currentSlide - 1 + slides.length) % slides.length;
             slides[currentSlide].classList.remove('active');
-            
-            // Mostrar el nuevo slide
-            slides[nextSlide].classList.add('active');
-            
-            // Actualizar indicadores
-            indicators.forEach(indicator => {
-                indicator.classList.remove('active');
-            });
-            indicators[nextSlide].classList.add('active');
-            
-            currentSlide = nextSlide;
+            slides[next].classList.add('active');
+            indicators.forEach(ind => ind.classList.remove('active'));
+            indicators[next].classList.add('active');
+            currentSlide = next;
         }
+        indicators.forEach((ind, idx) => ind.addEventListener('click', () => showSlide(idx)));
 
-        // Click en indicadores
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                showSlide(index);
-            });
-        });
-
-        // Función para voltear las tarjetas
+        // Voltear tarjetas
         function flipCard(container) {
             const card = container.querySelector('.gift-card');
             card.classList.toggle('flipped');
         }
-
-        // Auto-play opcional (comentado por defecto)
-        // setInterval(() => {
-        //     changeSlide('next');
-        // }, 5000);
+        // Exponer funciones al scope global si hace falta
+        window.openGift = openGift;
+        window.changeSlide = changeSlide;
+        window.flipCard = flipCard;
+        window.showSurprise = showSurprise;
     </script>
 </body>
 </html>
-
