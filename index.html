@@ -507,53 +507,239 @@
             }
         }
 
-        /* Galería de Fotos */
-        .photo-gallery {
+        /* Galería de Regalos - Carrusel */
+        .gift-carousel {
             padding: 80px 20px;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .photo-gallery h2 {
+        .gift-carousel h2 {
             text-align: center;
             color: white;
             font-size: 2.5rem;
             margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .photo-item {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #98DBC6, #5BC8AC);
+        .carousel {
+            position: relative;
+            background: rgba(255,255,255,0.1);
             border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            display: none;
+            position: relative;
+            width: 100%;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        /* Carta que gira */
+        .gift-card-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .gift-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+
+        .gift-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .gift-card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow: hidden;
+        }
+
+        .gift-card-front {
+            background: linear-gradient(135deg, #98DBC6, #5BC8AC);
+            border: 4px solid #E6D72A;
+            padding: 0;
+        }
+
+        .gift-card-back {
+            background: white;
+            transform: rotateY(180deg);
+            border: 4px solid #F18D9E;
+        }
+
+        .gift-icon {
+            font-size: 8rem;
+            margin-bottom: 30px;
+        }
+
+        .gift-image-custom {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .gift-back-title {
+            font-size: 2rem;
+            color: #F18D9E;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .gift-back-text {
+            font-size: 1.2rem;
+            color: #666;
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .gift-link {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #F18D9E, #E6D72A);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .gift-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(230, 215, 42, 0.3);
+        }
+
+        /* Controles del carrusel */
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 0;
+            bottom: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            width: 15%;
+            color: #fff;
+            text-align: center;
+            opacity: 0.8;
+            transition: opacity 0.3s;
             cursor: pointer;
+            z-index: 1;
+            background: none;
+            border: none;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 1;
+        }
+
+        .carousel-control-prev {
+            left: 0;
+        }
+
+        .carousel-control-next {
+            right: 0;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #5BC8AC;
+            border-radius: 50%;
             position: relative;
-            overflow: hidden;
-            border: 3px solid transparent;
         }
 
-        .photo-item::after {
-            content: '📸';
-            font-size: 3rem;
+        .carousel-control-prev-icon::before,
+        .carousel-control-next-icon::before {
+            content: '';
             position: absolute;
-            opacity: 0.3;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
         }
 
-        .photo-item:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 20px 40px rgba(91, 200, 172, 0.3);
-            border-color: #E6D72A;
+        .carousel-control-prev-icon::before {
+            border-width: 10px 15px 10px 0;
+            border-color: transparent white transparent transparent;
+            margin-left: -5px;
+        }
+
+        .carousel-control-next-icon::before {
+            border-width: 10px 0 10px 15px;
+            border-color: transparent transparent transparent white;
+            margin-left: 5px;
+        }
+
+        /* Indicadores */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 2;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .carousel-indicators li {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicators li.active {
+            background: #E6D72A;
+            transform: scale(1.3);
+        }
+
+        /* Texto de ayuda */
+        .carousel-help {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            margin-top: 20px;
+            font-size: 1.1rem;
         }
 
         /* Footer */
@@ -636,6 +822,14 @@
             .countdown-number {
                 font-size: 2rem;
             }
+            .gift-card-container {
+                height: 300px;
+            }
+            .gift-title {
+                font-size: 1.5rem;
+                bottom: 20px;
+                padding: 8px 20px;
+            }
         }
     </style>
 </head>
@@ -663,7 +857,7 @@
             
             <!-- Opción 2: Imagen personalizada -->
             <div class="custom-image-container">
-                <img src="portada.png" alt="Regalo especial" class="custom-image">
+                <img src="URL_DE_TU_IMAGEN_AQUI" alt="Regalo especial" class="custom-image">
                 <div class="sparkles" id="sparkles"></div>
             </div>
         </div>
@@ -679,6 +873,104 @@
             <div class="number-21">21</div>
             <h1>¡Feliz Cumpleaños!</h1>
             <p>Hoy celebramos no solo un año más de vida, sino 21 años de luz, alegría y momentos inolvidables</p>
+        </section>
+
+        <!-- Galería de Regalos -->
+        <section class="gift-carousel">
+            <h2>Galería de Regalos 🎁</h2>
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <!-- Regalo 1 -->
+                    <div class="carousel-item active">
+                        <div class="gift-card-container" onclick="flipCard(this)">
+                            <div class="gift-card">
+                                <div class="gift-card-face gift-card-front">
+                                    <img src="imagen1.png" alt="Regalo 1" class="gift-image-custom">
+                                </div>
+                                <div class="gift-card-face gift-card-back">
+                                    <h3 class="gift-back-title">Playlist Especial</h3>
+                                    <p class="gift-back-text">He creado una playlist con todas las canciones que me recuerdan a ti y a nosotros. Cada canción tiene una historia especial.</p>
+                                    <a href="https://spotify.com" class="gift-link" target="_blank">Abrir Regalo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Regalo 2 -->
+                    <div class="carousel-item">
+                        <div class="gift-card-container" onclick="flipCard(this)">
+                            <div class="gift-card">
+                                <div class="gift-card-face gift-card-front">
+                                    <img src="imagen2.png" alt="Regalo 2" class="gift-image-custom">
+                                </div>
+                                <div class="gift-card-face gift-card-back">
+                                    <h3 class="gift-back-title">Álbum Digital</h3>
+                                    <p class="gift-back-text">Un álbum con nuestras mejores fotos y momentos. Cada imagen cuenta una parte de nuestra historia juntos.</p>
+                                    <a href="https://photos.google.com" class="gift-link" target="_blank">Abrir Regalo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Regalo 3 -->
+                    <div class="carousel-item">
+                        <div class="gift-card-container" onclick="flipCard(this)">
+                            <div class="gift-card">
+                                <div class="gift-card-face gift-card-front">
+                                    <img src="imagen3.png" alt="Regalo 3" class="gift-image-custom">
+                                </div>
+                                <div class="gift-card-face gift-card-back">
+                                    <h3 class="gift-back-title">Video Sorpresa</h3>
+                                    <p class="gift-back-text">Un video especial que preparé con mucho amor. Es mi forma de decirte cuánto significas para mí.</p>
+                                    <a href="https://youtube.com" class="gift-link" target="_blank">Abrir Regalo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Regalo 4 -->
+                    <div class="carousel-item">
+                        <div class="gift-card-container" onclick="flipCard(this)">
+                            <div class="gift-card">
+                                <div class="gift-card-face gift-card-front">
+                                    <img src="imagen4.png" alt="Regalo 4" class="gift-image-custom">
+                                </div>
+                                <div class="gift-card-face gift-card-back">
+                                    <h3 class="gift-back-title">Vale por un Día Perfecto</h3>
+                                    <p class="gift-back-text">Este vale es por un día completo haciendo todo lo que más te gusta. Tú eliges el plan y yo lo hago realidad.</p>
+                                    <a href="#" class="gift-link">Canjear Vale</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Regalo 5 -->
+                    <div class="carousel-item">
+                        <div class="gift-card-container" onclick="flipCard(this)">
+                            <div class="gift-card">
+                                <div class="gift-card-face gift-card-front">
+                                    <img src="imagen5.png" alt="Regalo 5" class="gift-image-custom">
+                                </div>
+                                <div class="gift-card-face gift-card-back">
+                                    <h3 class="gift-back-title">Nuestra Próxima Aventura</h3>
+                                    <p class="gift-back-text">He planeado un viaje sorpresa para nosotros. Prepárate para crear nuevos recuerdos inolvidables.</p>
+                                    <a href="#" class="gift-link">Ver Destino</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" onclick="changeSlide('prev')">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" onclick="changeSlide('next')">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            <p class="carousel-help">Haz clic en cada tarjeta para descubrir tu regalo ✨</p>
         </section>
 
         <!-- Sección de Memorias -->
@@ -709,19 +1001,6 @@
                     <h3>Tu Pasión 🔥</h3>
                     <p>La intensidad con la que vives cada momento y persigues tus sueños.</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- Galería de Fotos -->
-        <section class="photo-gallery">
-            <h2>Galería de Momentos</h2>
-            <div class="gallery-grid">
-                <div class="photo-item">Foto 1</div>
-                <div class="photo-item">Foto 2</div>
-                <div class="photo-item">Foto 3</div>
-                <div class="photo-item">Foto 4</div>
-                <div class="photo-item">Foto 5</div>
-                <div class="photo-item">Foto 6</div>
             </div>
         </section>
 
@@ -929,6 +1208,75 @@
                 item.style.background = 'linear-gradient(135deg, #ff0066, #ff9900)';
             });
         });
+
+        // Carrusel de regalos
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const indicators = document.querySelectorAll('.carousel-indicators li');
+
+        function showSlide(index) {
+            // Ocultar todos los slides
+            slides.forEach(slide => {
+                slide.classList.remove('active', 'carousel-item-next', 'carousel-item-prev');
+            });
+            
+            // Actualizar indicadores
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+            
+            // Mostrar el slide actual
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        function changeSlide(direction) {
+            // Resetear todas las tarjetas volteadas
+            document.querySelectorAll('.gift-card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+            
+            let nextSlide;
+            if (direction === 'next') {
+                nextSlide = (currentSlide + 1) % slides.length;
+            } else {
+                nextSlide = (currentSlide - 1 + slides.length) % slides.length;
+            }
+            
+            // Ocultar el slide actual
+            slides[currentSlide].classList.remove('active');
+            
+            // Mostrar el nuevo slide
+            slides[nextSlide].classList.add('active');
+            
+            // Actualizar indicadores
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+            indicators[nextSlide].classList.add('active');
+            
+            currentSlide = nextSlide;
+        }
+
+        // Click en indicadores
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Función para voltear las tarjetas
+        function flipCard(container) {
+            const card = container.querySelector('.gift-card');
+            card.classList.toggle('flipped');
+        }
+
+        // Auto-play opcional (comentado por defecto)
+        // setInterval(() => {
+        //     changeSlide('next');
+        // }, 5000);
     </script>
 </body>
 </html>
