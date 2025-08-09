@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>¡Felices 21! 🎉</title>
+
+    <!-- ✨ dorado: fuente elegante -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -18,16 +22,15 @@
         /* Regalo Inicial (pantalla de inicio negra) */
         .gift-wrapper {
             position: fixed;
-            inset: 0; /* ✨ cambio: más limpio que top/left/width/height */
-            background: #000; /* ✨ cambio: fondo negro */
+            inset: 0;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 1s ease, transform 1s ease;
-            overflow: hidden; /* ✨ por si hay efectos flotando */
+            overflow: hidden;
         }
-
         .gift-wrapper.hidden {
             opacity: 0;
             transform: scale(1.05);
@@ -37,22 +40,19 @@
         .gift-container {
             position: relative;
             cursor: pointer;
-            width: min(90vw, 700px); /* ✨ cambio: responsive */
-            /* Si quieres que ocupe toda la pantalla, usa: width: 100vw; */
-            /* y añade: height: 100vh; a .custom-image para cover */
+            width: min(90vw, 700px);
         }
 
         /* Imagen inicial responsive */
         .custom-image-container { position: relative; width: 100%; }
         .custom-image {
             width: 100%;
-            height: auto;            /* ✨ asegura proporción */
+            height: auto;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6); /* más contraste en negro */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
             display: block;
         }
-
         .custom-image-container:hover .custom-image {
             transform: scale(1.02);
             box-shadow: 0 20px 50px rgba(0,0,0,0.7);
@@ -60,13 +60,12 @@
 
         /* Sparkles a pantalla completa en la portada */
         .sparkles {
-            position: fixed; /* ✨ cambio clave: cubrir todo */
+            position: fixed;
             inset: 0;
             pointer-events: none;
             overflow: visible;
-            z-index: 10000; /* sobre la imagen, bajo el click (no bloquea) */
+            z-index: 10000;
         }
-
         .sparkle {
             position: absolute;
             width: 4px;
@@ -77,12 +76,53 @@
             box-shadow: 0 0 6px rgba(230, 215, 42, 0.8);
             opacity: 0;
         }
-
         @keyframes sparkle {
             0%   { opacity: 0; transform: translateY(0) scale(0.6); }
             20%  { opacity: 1; }
             60%  { opacity: 1; transform: translateY(-30px) scale(1); }
             100% { opacity: 0; transform: translateY(-60px) scale(0.4); }
+        }
+
+        /* ✨ dorado: título animado */
+        .gold-title {
+            position: fixed;              /* para que no dependa del box */
+            left: 50%;
+            bottom: 8%;
+            transform: translateX(-50%);
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.2rem, 8vw, 4.6rem);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #FFD700;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow:
+                0 0 10px rgba(255, 215, 0, 0.6),
+                0 0 20px rgba(255, 215, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.4);
+            z-index: 10002;
+            pointer-events: none;         /* no bloquea el click */
+            opacity: 0;
+
+            /* 1) entra desde abajo  2) luego flota y brilla en loop */
+            animation:
+                introRise 0.9s ease-out 0.15s forwards,
+                shimmer 3s 1s infinite,
+                floatText 3s 1s ease-in-out infinite;
+        }
+        @keyframes introRise {
+            0%   { opacity: 0; transform: translate(-50%, 20px) scale(0.98); }
+            60%  { opacity: 1; transform: translate(-50%, -3px) scale(1.01); }
+            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
+        @keyframes shimmer {
+            0%   { text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.5), 0 0 30px rgba(255,215,0,0.4); }
+            50%  { text-shadow: 0 0 20px rgba(255,215,0,0.9), 0 0 40px rgba(255,215,0,0.8), 0 0 60px rgba(255,215,0,0.7); }
+            100% { text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.5), 0 0 30px rgba(255,215,0,0.4); }
+        }
+        @keyframes floatText {
+            0%, 100% { transform: translate(-50%, 0); }
+            50%      { transform: translate(-50%, -10px); }
         }
 
         /* Contenido Principal (oculto inicialmente) */
@@ -117,7 +157,6 @@
             justify-content: center; align-items: center;
             position: relative; text-align: center; color: white;
         }
-
         .number-21 {
             font-size: 15rem; font-weight: bold;
             background: linear-gradient(45deg, #E6D72A, #F18D9E, #5BC8AC, #98DBC6);
@@ -134,7 +173,6 @@
             100% { background-position: 0% 50%; }
         }
         @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
-
         .hero h1 { font-size: 3rem; margin-bottom: 20px; opacity: 0; animation: fadeInUp 1s ease forwards 0.5s; }
         .hero p  { font-size: 1.5rem; opacity: 0; animation: fadeInUp 1s ease forwards 1s; max-width: 600px; padding: 0 20px; }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
@@ -182,11 +220,7 @@
         .memory-card:hover p { color: rgba(255,255,255,0.9); }
 
         /* Sección de Deseos */
-        .wishes {
-            text-align: center; padding: 80px 20px;
-            background: rgba(255,255,255,0.95); border-radius: 30px;
-            max-width: 900px; margin: 50px auto;
-        }
+        .wishes { text-align: center; padding: 80px 20px; background: rgba(255,255,255,0.95); border-radius: 30px; max-width: 900px; margin: 50px auto; }
         .wishes h2 { color: #5BC8AC; font-size: 2.5rem; margin-bottom: 30px; }
         .wish-text { font-size: 1.2rem; line-height: 2; color: #555; margin-bottom: 40px; }
 
@@ -231,9 +265,7 @@
         }
 
         /* Galería de Regalos - Carrusel */
-        .gift-carousel {
-            padding: 80px 20px; max-width: 900px; margin: 0 auto;
-        }
+        .gift-carousel { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
         .gift-carousel h2 {
             text-align: center; color: white; font-size: 2.5rem; margin-bottom: 50px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
@@ -244,10 +276,7 @@
         .carousel-item.active { display: block; }
 
         /* Carta que gira */
-        .gift-card-container {
-            position: relative; width: 100%; max-width: 800px; height: 500px; margin: 0 auto;
-            perspective: 1000px; cursor: pointer;
-        }
+        .gift-card-container { position: relative; width: 100%; max-width: 800px; height: 500px; margin: 0 auto; perspective: 1000px; cursor: pointer; }
         @media (min-width: 1200px) { .gift-card-container { max-width: 900px; height: 600px; } }
         @media (min-width: 1600px) { .gift-card-container { max-width: 1000px; height: 650px; } }
 
@@ -325,9 +354,7 @@
             .countdown-item { min-width: 80px; }
             .countdown-number { font-size: 2rem; }
             .gift-card-container { height: 350px; }
-            .gift-back-title { font-size: 1.5rem; }
-            .gift-back-text  { font-size: 1rem; }
-            .carousel-help { font-size: 1rem; }
+            .gold-title { bottom: 10%; } /* ✨ dorado: poco más alto en móviles */
         }
         @media (max-width: 480px) {
             .gift-card-container { height: 300px; }
@@ -335,6 +362,7 @@
             .gift-back-title { font-size: 1.3rem; margin-bottom: 15px; }
             .gift-back-text  { font-size: 0.9rem; margin-bottom: 20px; }
             .gift-link { padding: 12px 30px; font-size: 1rem; }
+            .gold-title { bottom: 12%; } /* ✨ dorado */
         }
     </style>
 </head>
@@ -346,7 +374,11 @@
                 <img src="portada.png" alt="Regalo especial" class="custom-image">
             </div>
         </div>
-        <!-- ✨ sparkles a pantalla completa (movido fuera del box de imagen) -->
+
+        <!-- ✨ dorado: título en portada -->
+        <div class="gold-title">Feliz Cumple #21</div>
+
+        <!-- ✨ sparkles a pantalla completa -->
         <div class="sparkles" id="sparkles"></div>
     </div>
 
@@ -503,20 +535,16 @@
         function createSparkle() {
             const s = document.createElement('div');
             s.className = 'sparkle';
-            // posición en toda la pantalla
             s.style.left = (Math.random() * 100) + 'vw';
             s.style.top  = (Math.random() * 100) + 'vh';
-            // tamaño y tiempos variables
             const size = (Math.random() * 6 + 3);
             s.style.width = s.style.height = size + 'px';
             s.style.animationDuration = (2 + Math.random() * 2) + 's';
             s.style.animationDelay = (Math.random() * 1) + 's';
             sparklesContainer.appendChild(s);
-            // limpiar al terminar
             setTimeout(() => s.remove(), 4000);
         }
-        // ritmo moderado para no saturar la GPU
-        const sparkleInterval = setInterval(createSparkle, 120); /* ✨ cambio */
+        const sparkleInterval = setInterval(createSparkle, 120);
 
         // Función para abrir el regalo
         function openGift() {
@@ -543,7 +571,7 @@
             }
 
             setTimeout(() => {
-                clearInterval(sparkleInterval); // ✨ detener sparkles
+                clearInterval(sparkleInterval); // detener sparkles
                 giftWrapper.classList.add('hidden');
                 mainContent.classList.add('visible');
                 setTimeout(() => giftWrapper.remove(), 1000);
@@ -644,10 +672,11 @@
             const card = container.querySelector('.gift-card');
             card.classList.toggle('flipped');
         }
-        // Exponer funciones al scope global si hace falta
-        window.openGift = openGift;
-        window.changeSlide = changeSlide;
-        window.flipCard = flipCard;
+
+        // Exponer funciones globales
+        window.openGift   = openGift;
+        window.changeSlide= changeSlide;
+        window.flipCard   = flipCard;
         window.showSurprise = showSurprise;
     </script>
 </body>
