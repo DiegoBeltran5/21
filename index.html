@@ -550,11 +550,25 @@
         .gift-card-container {
             position: relative;
             width: 100%;
-            max-width: 600px;
-            height: 400px;
+            max-width: 800px;
+            height: 500px;
             margin: 0 auto;
             perspective: 1000px;
             cursor: pointer;
+        }
+
+        @media (min-width: 1200px) {
+            .gift-card-container {
+                max-width: 900px;
+                height: 600px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .gift-card-container {
+                max-width: 1000px;
+                height: 650px;
+            }
         }
 
         .gift-card {
@@ -620,6 +634,24 @@
             text-align: center;
             line-height: 1.8;
             margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        @media (min-width: 1200px) {
+            .gift-back-title {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+            
+            .gift-back-text {
+                font-size: 1.4rem;
+                line-height: 2;
+            }
+            
+            .gift-link {
+                font-size: 1.3rem;
+                padding: 20px 50px;
+            }
         }
 
         .gift-link {
@@ -823,12 +855,37 @@
                 font-size: 2rem;
             }
             .gift-card-container {
+                height: 350px;
+            }
+            .gift-back-title {
+                font-size: 1.5rem;
+            }
+            .gift-back-text {
+                font-size: 1rem;
+            }
+            .carousel-help {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gift-card-container {
                 height: 300px;
             }
-            .gift-title {
-                font-size: 1.5rem;
-                bottom: 20px;
-                padding: 8px 20px;
+            .gift-card-face {
+                padding: 20px;
+            }
+            .gift-back-title {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+            }
+            .gift-back-text {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+            .gift-link {
+                padding: 12px 30px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -1280,4 +1337,3 @@
     </script>
 </body>
 </html>
-
