@@ -15,7 +15,8 @@
     :root{
       /* 🎨 Paleta rosa champagne */
       --pink:#F7C6D9; --lavender:#CDB4DB; --champagne:#FCEFEF; --gold:#FFD700; --plum:#6A0DAD; --ivory:#FFF8F0; --text-dark:#3E3248;
-      --arrow-safe: 76px; /* espacio lateral para flechas, solo en reverso */
+      /* zona segura para no tapar texto con las flechas en reverso */
+      --arrow-safe: 76px; /* desktop */
       --card-radius: 20px; --card-border: 4px;
     }
     @media (max-width: 768px){ :root{ --arrow-safe: 54px; } }
@@ -44,6 +45,7 @@
     .main-content.visible { opacity: 1; visibility: visible; }
 
     #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+
     #balloons-container { position: fixed; inset: 0; pointer-events: none; z-index: 6; overflow: hidden; }
     .balloon { position: absolute; bottom: -10vh; font-size: 2rem; filter: hue-rotate(0deg); animation: balloonUp linear forwards; will-change: transform; }
     @keyframes balloonUp { 0%{ transform: translate(var(--x, 0), 100vh) scale(1); opacity: 0.95;} 70%{opacity:1;} 100%{ transform: translate(calc(var(--x, 0) + var(--drift, 0px)), -20vh) scale(1.15); opacity:0;} }
@@ -76,22 +78,21 @@
 
     /* Tarjeta que gira */
     .gift-card-container { position: relative; width: 100%; max-width: 800px; height: 500px; margin: 0 auto; perspective: 1000px; cursor: pointer; }
-    @media (max-width: 768px){ .gift-card-container{ height: 380px; } }
-    @media (max-width: 520px){ .gift-card-container{ height: 320px; } }
-    @media (max-width: 400px){ .gift-card-container{ height: 290px; } }
+    @media (min-width: 1200px){ .gift-card-container{ max-width: 900px; height: 600px; } }
+    @media (min-width: 1600px){ .gift-card-container{ max-width: 1000px; height: 650px; } }
 
     .gift-card { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.8s; }
     .gift-card.flipped { transform: rotateY(180deg); }
 
-    /* Caras */
+    /* Caras base (desktop por defecto) */
     .gift-card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--card-radius); display:flex; flex-direction:column; align-items:center; justify-content:center; overflow: hidden; }
 
-    /* 👇 Front: marco con borde y la foto pegada sin huecos */
-    .gift-card-front { background: linear-gradient(135deg, var(--champagne), var(--pink)); border: var(--card-border) solid var(--gold); padding: 0; overflow: hidden; }
-    .gift-card-front .gift-image-custom { width: 100%; height: 100%; display:block; object-fit: cover; border-radius: 0; /* sin radios para pegar al borde interno */ }
+    /* === Desktop (≥769px): imagen con radios y "marco" visible === */
+    .gift-card-front { background: linear-gradient(135deg, var(--champagne), var(--pink)); border: var(--card-border) solid var(--gold); padding: 0; }
+    .gift-card-front .gift-image-custom { width: 100%; height: 100%; display:block; object-fit: cover; border-radius: 16px; /* margen interno elegante */ }
 
-    /* 👇 Back: texto con zona segura para flechas */
-    .gift-card-back { background: var(--ivory); transform: rotateY(180deg); border: var(--card-border) solid var(--lavender); padding: 32px var(--arrow-safe); }
+    /* Reverso con zona segura para flechas */
+    .gift-card-back { background: var(--ivory); transform: rotateY(180deg); border: var(--card-border) solid var(--lavender); padding: 40px var(--arrow-safe); }
 
     .gift-image-custom { width: 100%; height: 100%; object-fit: cover; }
 
@@ -131,12 +132,18 @@
     .heart { display:inline-block; color: var(--pink); font-size: 2rem; animation: heartbeat 1.5s ease-in-out infinite; }
     @keyframes heartbeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
 
-    /* Ajustes extra en móviles: textos un poco más pequeños */
-    @media (max-width: 600px){
-      .gift-back-title{ font-size: 1.1rem; }
-      .gift-back-text{ font-size: 0.9rem; }
+    /* === Modo móvil (≤768px): foto "pegada" al marco === */
+    @media (max-width: 768px){
+      .gift-card-container { height: 380px; }
+      .gift-card-front { overflow: hidden; }
+      .gift-card-front .gift-image-custom { border-radius: 0; }
+      .gift-card-back { padding: 24px var(--arrow-safe); }
+      .gift-back-title{ font-size: 1.12rem; }
+      .gift-back-text{ font-size: 0.92rem; }
       .gift-link{ font-size: 0.92rem; padding: 11px 26px; }
     }
+    @media (max-width: 520px){ .gift-card-container{ height: 320px; } }
+    @media (max-width: 400px){ .gift-card-container{ height: 290px; } }
   </style>
 </head>
 <body>
@@ -151,7 +158,10 @@
       </div>
     </div>
 
+    <!-- ✨ dorado: título en portada -->
     <div class="gold-title">Feliz Cumple #21</div>
+
+    <!-- ✨ sparkles a pantalla completa -->
     <div class="sparkles" id="sparkles"></div>
   </div>
 
@@ -175,7 +185,8 @@
       </div>
       <div class="wish-text">
         En este día tan especial, deseo que los próximos 21 años estén llenos de aventuras increíbles,
-        sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad para brillar y que nunca olvides lo extraordinario/a que eres.
+        sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad
+        para brillar y que nunca olvides lo extraordinario/a que eres.
       </div>
       <a class="special-button" onclick="showSurprise()">¡Haz Click Para Una Sorpresa!</a>
     </section>
@@ -229,7 +240,7 @@
                 </div>
                 <div class="gift-card-face gift-card-back">
                   <h3 class="gift-back-title">Nuevos horizontes</h3>
-                  <p class="gift-back-text">Hoy, entre libros y responsabilidades, inicia un nuevo camino. Cada jornada te envuelve con la determinación y la gracia de quien avanza sabiendo que su destino le pertenece.</p>
+                  <p class="gift-back-text">Hoy, entre libros y responsabilidades, una nueva puerta se abre ante ti. Cada nueva jornada te envuelve con la determinación y la gracia de quien avanza sabiendo que su destino le pertenece.</p>
                   <a href="https://youtube.com" class="gift-link" target="_blank">Abrir Regalo</a>
                 </div>
               </div>
@@ -252,47 +263,46 @@
   <script>
     // ====== AUDIO: reproducir un fragmento al abrir el regalo ======
     const SONG_START_SEC = 129; const SONG_DURATION_SEC = 440;
-    function playSongFragment(){ const a = document.getElementById('bgSong'); if(!a) return; const doPlay = () => { try{ a.currentTime = SONG_START_SEC; }catch(e){} a.volume = 0.70; const p = a.play(); if (p && p.catch) p.catch(()=>{}); setTimeout(()=>{ try{ a.pause(); }catch(e){} }, SONG_DURATION_SEC*1000); }; if(a.readyState>=1){ doPlay(); } else { a.addEventListener('loadedmetadata', doPlay, {once:true}); a.load(); } }
+    function playSongFragment(){ const a = document.getElementById('bgSong'); if(!a) return; const doPlay = () => { try{ a.currentTime = SONG_START_SEC; }catch(e){} a.volume = 0.70; const p = a.play(); if (p && p.catch) p.catch(()=>{}); setTimeout(() => { try{ a.pause(); }catch(e){} }, SONG_DURATION_SEC * 1000); }; if (a.readyState >= 1) { doPlay(); } else { a.addEventListener('loadedmetadata', doPlay, { once: true }); a.load(); } }
 
     // ✨ Sparkles (portada)
     const sparklesContainer = document.getElementById('sparkles');
-    function createSparkle(){ const s=document.createElement('div'); s.className='sparkle'; s.style.left=(Math.random()*100)+'vw'; s.style.top=(Math.random()*100)+'vh'; const size=(Math.random()*6+3); s.style.width=s.style.height=size+'px'; s.style.animationDuration=(2+Math.random()*2)+'s'; s.style.animationDelay=(Math.random()*1)+'s'; sparklesContainer.appendChild(s); setTimeout(()=> s.remove(), 4000); }
-    const sparkleInterval=setInterval(createSparkle,120);
+    function createSparkle(){ const s = document.createElement('div'); s.className = 'sparkle'; s.style.left = (Math.random()*100) + 'vw'; s.style.top  = (Math.random()*100) + 'vh'; const size = (Math.random()*6 + 3); s.style.width = s.style.height = size + 'px'; s.style.animationDuration = (2 + Math.random()*2) + 's'; s.style.animationDelay = (Math.random()*1) + 's'; sparklesContainer.appendChild(s); setTimeout(() => s.remove(), 4000); }
+    const sparkleInterval = setInterval(createSparkle, 120);
 
     // ====== CONFETI & GLOBOS ======
-    let confettiStarted=false; function startMainEffects(){ if(confettiStarted) return; confettiStarted=true; startConfetti(); startBalloons(); }
+    let confettiStarted = false; function startMainEffects(){ if(confettiStarted) return; confettiStarted = true; startConfetti(); startBalloons(); }
 
     // 🎉 Confeti con Canvas
-    const confettiCanvas=document.getElementById('confetti-canvas'); const ctx=confettiCanvas.getContext('2d');
-    function resizeCanvas(){ confettiCanvas.width=window.innerWidth; confettiCanvas.height=window.innerHeight; }
+    const confettiCanvas = document.getElementById('confetti-canvas'); const ctx = confettiCanvas.getContext('2d');
+    function resizeCanvas(){ confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
-    const confettiPieces=[]; const MAX_CONFETTI=400;
-    function spawnConfetti(n=6){ for(let i=0;i<n;i++){ if(confettiPieces.length>=MAX_CONFETTI) break; confettiPieces.push({ x:Math.random()*confettiCanvas.width, y:-10, w:Math.random()*6+3, h:Math.random()*10+6, color:`hsl(${Math.random()*360},90%,60%)`, vy:Math.random()*2+1.5, vx:(Math.random()-0.5)*0.8, rot:Math.random()*Math.PI*2, vr:(Math.random()-0.5)*0.1 }); } }
-    function drawConfetti(){ ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height); for(let i=confettiPieces.length-1;i>=0;i--){ const p=confettiPieces[i]; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; if(p.y-p.h>confettiCanvas.height){ confettiPieces.splice(i,1); continue; } ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.color; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore(); } }
+
+    const confettiPieces = []; const MAX_CONFETTI = 400;
+    function spawnConfetti(n=6){ for (let i=0; i<n; i++){ if(confettiPieces.length >= MAX_CONFETTI) break; confettiPieces.push({ x: Math.random()*confettiCanvas.width, y: -10, w: Math.random()*6 + 3, h: Math.random()*10 + 6, color: `hsl(${Math.random()*360},90%,60%)`, vy: Math.random()*2 + 1.5, vx: (Math.random()-0.5)*0.8, rot: Math.random()*Math.PI*2, vr: (Math.random()-0.5)*0.1 }); } }
+    function drawConfetti(){ ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height); for (let i=confettiPieces.length-1; i>=0; i--){ const p = confettiPieces[i]; p.x += p.vx; p.y += p.vy; p.rot += p.vr; if (p.y - p.h > confettiCanvas.height){ confettiPieces.splice(i,1); continue; } ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore(); } }
     function loopConfetti(){ spawnConfetti(5); drawConfetti(); requestAnimationFrame(loopConfetti); }
     function startConfetti(){ resizeCanvas(); loopConfetti(); }
 
     // 🎈 Globos
-    const balloonsContainer=document.getElementById('balloons-container');
-    function spawnBalloon(){ const b=document.createElement('div'); b.className='balloon'; b.textContent='🎈'; const duration=(Math.random()*6+8).toFixed(2)+'s'; const startXvw=Math.random()*100; const driftPx=(Math.random()*200-100)+'px'; const fontRem=(Math.random()*1.3+1.6).toFixed(2)+'rem'; const hue=Math.floor(Math.random()*360); b.style.left=startXvw+'vw'; b.style.setProperty('--x','0px'); b.style.setProperty('--drift',driftPx); b.style.animationDuration=duration; b.style.fontSize=fontRem; b.style.filter=`hue-rotate(${hue}deg)`; balloonsContainer.appendChild(b); setTimeout(()=> b.remove(), parseFloat(duration)*1000+1000); }
-    let balloonsTimer; function startBalloons(){ balloonsTimer=setInterval(spawnBalloon,700); }
+    const balloonsContainer = document.getElementById('balloons-container');
+    function spawnBalloon(){ const b = document.createElement('div'); b.className = 'balloon'; b.textContent = '🎈'; const duration = (Math.random()*6 + 8).toFixed(2) + 's'; const startXvw = Math.random()*100; const driftPx = (Math.random()*200 - 100) + 'px'; const fontRem = (Math.random()*1.3 + 1.6).toFixed(2) + 'rem'; const hue = Math.floor(Math.random()*360); b.style.left = startXvw + 'vw'; b.style.setProperty('--x','0px'); b.style.setProperty('--drift', driftPx); b.style.animationDuration = duration; b.style.fontSize = fontRem; b.style.filter = `hue-rotate(${hue}deg)`; balloonsContainer.appendChild(b); setTimeout(() => b.remove(), parseFloat(duration) * 1000 + 1000); }
+    let balloonsTimer; function startBalloons(){ balloonsTimer = setInterval(spawnBalloon, 700); }
 
     // Abrir regalo
-    function openGift(){ try{ playSongFragment(); }catch(e){} const giftWrapper=document.getElementById('giftWrapper'); const mainContent=document.getElementById('mainContent'); const customImage=document.querySelector('.custom-image'); if(customImage){ customImage.style.transform='scale(1.1)'; customImage.style.opacity='0.85'; } for(let i=0;i<150;i++){ const confetti=document.createElement('div'); confetti.className='confetti'; confetti.style.left='50%'; confetti.style.top='50%'; confetti.style.background=`hsl(${Math.random()*360},100%,50%)`; confetti.style.animationDelay=Math.random()*0.5+'s'; confetti.style.transform=`translate(-50%, -50%) translate(${(Math.random()-0.5)*500}px, ${(Math.random()-0.5)*500}px)`; giftWrapper.appendChild(confetti); }
-      setTimeout(()=>{ clearInterval(sparkleInterval); giftWrapper.classList.add('hidden'); mainContent.classList.add('visible'); startMainEffects(); setTimeout(()=> giftWrapper.remove(), 1000); },700); }
+    function openGift(){ try{ playSongFragment(); }catch(e){} const giftWrapper = document.getElementById('giftWrapper'); const mainContent = document.getElementById('mainContent'); const customImage = document.querySelector('.custom-image'); if(customImage){ customImage.style.transform='scale(1.1)'; customImage.style.opacity='0.85'; } for(let i=0;i<150;i++){ const confetti = document.createElement('div'); confetti.className='confetti'; confetti.style.left='50%'; confetti.style.top='50%'; confetti.style.background = `hsl(${Math.random()*360},100%,50%)`; confetti.style.animationDelay = Math.random()*0.5 + 's'; confetti.style.transform = `translate(-50%, -50%) translate(${(Math.random()-0.5)*500}px, ${(Math.random()-0.5)*500}px)`; giftWrapper.appendChild(confetti); } setTimeout(() => { clearInterval(sparkleInterval); giftWrapper.classList.add('hidden'); mainContent.classList.add('visible'); startMainEffects(); setTimeout(() => giftWrapper.remove(), 1000); }, 700); }
 
     function showSurprise(){ for(let i=0;i<100;i++){ const confetti=document.createElement('div'); confetti.className='confetti'; confetti.style.left=Math.random()*100+'vw'; confetti.style.background=`hsl(${Math.random()*360},100%,50%)`; confetti.style.animationDelay=Math.random()*3+'s'; document.body.appendChild(confetti); setTimeout(()=>confetti.remove(),3000);} alert('¡Te amo! 💕 Este día es tan especial como tú. ¡Felices 21!'); }
 
     // Carrusel
-    let currentSlide=0; const slides=document.querySelectorAll('.carousel-item'); const indicators=document.querySelectorAll('.carousel-indicators li');
+    let currentSlide = 0; const slides = document.querySelectorAll('.carousel-item'); const indicators = document.querySelectorAll('.carousel-indicators li');
     function showSlide(index){ slides.forEach(s=>s.classList.remove('active','carousel-item-next','carousel-item-prev')); indicators.forEach(i=>i.classList.remove('active')); slides[index].classList.add('active'); indicators[index].classList.add('active'); currentSlide=index; }
-    function changeSlide(direction){ document.querySelectorAll('.gift-card').forEach(c=>c.classList.remove('flipped')); const next= direction==='next' ? (currentSlide+1)%slides.length : (currentSlide-1+slides.length)%slides.length; slides[currentSlide].classList.remove('active'); slides[next].classList.add('active'); indicators.forEach(i=>i.classList.remove('active')); indicators[next].classList.add('active'); currentSlide=next; }
-    indicators.forEach((ind, idx)=> ind.addEventListener('click', ()=> showSlide(idx)) );
-    function flipCard(container){ const card=container.querySelector('.gift-card'); card.classList.toggle('flipped'); }
+    function changeSlide(direction){ document.querySelectorAll('.gift-card').forEach(c=>c.classList.remove('flipped')); const next = direction==='next' ? (currentSlide+1)%slides.length : (currentSlide-1+slides.length)%slides.length; slides[currentSlide].classList.remove('active'); slides[next].classList.add('active'); indicators.forEach(i=>i.classList.remove('active')); indicators[next].classList.add('active'); currentSlide=next; }
+    indicators.forEach((ind, idx) => ind.addEventListener('click', () => showSlide(idx)));
+    function flipCard(container){ const card = container.querySelector('.gift-card'); card.classList.toggle('flipped'); }
 
     // Exponer
-    window.openGift=openGift; window.changeSlide=changeSlide; window.flipCard=flipCard; window.showSurprise=showSurprise;
+    window.openGift = openGift; window.changeSlide = changeSlide; window.flipCard = flipCard; window.showSurprise = showSurprise;
   </script>
 </body>
 </html>
-
