@@ -198,91 +198,35 @@
         .hero p  { font-size: 1.5rem; opacity: 0; animation: fadeInUp 1s ease forwards 1s; max-width: 600px; padding: 0 20px; }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
 
-        /* Sección de Memorias */
-        .memories {
-            padding: 100px 20px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            margin: 50px auto;
-            max-width: 1200px;
-            border-radius: 30px;
-            border: 2px solid rgba(152, 219, 198, 0.3);
-        }
-        .memories h2 {
-            text-align: center; color: white; font-size: 2.5rem; margin-bottom: 50px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; margin-bottom: 50px;
-        }
-        .memory-card {
-            background: rgba(255,255,255,0.9);
-            border-radius: 20px; padding: 30px;
-            transform: translateY(0); transition: all 0.3s ease; cursor: pointer;
-            position: relative; overflow: hidden;
-            border: 3px solid #E6D72A; box-shadow: 0 10px 30px rgba(230, 215, 42, 0.2);
-        }
-        .memory-card::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, #5BC8AC, #98DBC6);
-            opacity: 0; transition: opacity 0.3s ease; z-index: -1;
-        }
-        .memory-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(241, 141, 158, 0.4);
-            color: white; border-color: #F18D9E;
-        }
-        .memory-card:hover::before { opacity: 1; }
-        .memory-card h3 { color: #F18D9E; margin-bottom: 15px; transition: color 0.3s ease; font-size: 1.4rem; text-shadow: 1px 1px 2px rgba(241, 141, 158, 0.2); }
-        .memory-card:hover h3 { color: white; }
-        .memory-card p { color: #666; line-height: 1.6; transition: color 0.3s ease; }
-        .memory-card:hover p { color: rgba(255,255,255,0.9); }
-
         /* Sección de Deseos */
-        .wishes { text-align: center; padding: 80px 20px; background: rgba(255,255,255,0.95); border-radius: 30px; max-width: 900px; margin: 50px auto; }
+        .wishes { 
+            text-align: center; 
+            padding: 80px 20px; 
+            background: rgba(255,255,255,0.95); 
+            border-radius: 30px; 
+            max-width: 900px; 
+            margin: 50px auto; 
+            position: relative;
+        }
         .wishes h2 { color: #5BC8AC; font-size: 2.5rem; margin-bottom: 30px; }
         .wish-text { font-size: 1.2rem; line-height: 2; color: #555; margin-bottom: 40px; }
-
-        /* Cuenta Regresiva */
-        .countdown {
-            display: flex; justify-content: center; gap: 30px;
-            margin: 50px 0; flex-wrap: wrap;
+        
+        /* Contenedor de imagen en sección deseos */
+        .wishes-image-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
         }
-        .countdown-item {
-            background: white; border-radius: 15px; padding: 20px; min-width: 100px;
-            box-shadow: 0 10px 30px rgba(91, 200, 172, 0.2);
-            transition: transform 0.3s ease; border: 2px solid #98DBC6;
+        .wishes-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(91, 200, 172, 0.3);
+            transition: transform 0.3s ease;
         }
-        .countdown-item:hover { transform: translateY(-5px); border-color: #5BC8AC; }
-        .countdown-number { font-size: 3rem; font-weight: bold; color: #5BC8AC; }
-        .countdown-label { color: #666; margin-top: 10px; }
-
-        /* Botón Especial */
-        .special-button {
-            display: inline-block; padding: 20px 60px;
-            background: linear-gradient(45deg, #F18D9E, #E6D72A);
-            color: white; text-decoration: none; border-radius: 50px;
-            font-size: 1.2rem; font-weight: bold; margin-top: 30px;
-            transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        .special-button::before {
-            content: ''; position: absolute; inset: 0; left: -100%;
-            background: rgba(91, 200, 172, 0.3); transition: left 0.5s ease;
-        }
-        .special-button:hover::before { left: 100%; }
-        .special-button:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(241, 141, 158, 0.3); }
-
-        /* Confetti puntual (usado en portada/sorpresa) */
-        .confetti {
-            position: absolute; width: 10px; height: 10px; background: #f0f;
-            animation: confetti-fall 3s linear infinite;
-        }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        .wishes-image:hover {
+            transform: scale(1.02);
         }
 
         /* Galería de Regalos - Carrusel */
@@ -361,6 +305,32 @@
 
         .carousel-help { text-align: center; color: rgba(255,255,255,0.8); margin-top: 20px; font-size: 1.1rem; }
 
+        /* Botón Especial */
+        .special-button {
+            display: inline-block; padding: 20px 60px;
+            background: linear-gradient(45deg, #F18D9E, #E6D72A);
+            color: white; text-decoration: none; border-radius: 50px;
+            font-size: 1.2rem; font-weight: bold; margin-top: 30px;
+            transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .special-button::before {
+            content: ''; position: absolute; inset: 0; left: -100%;
+            background: rgba(91, 200, 172, 0.3); transition: left 0.5s ease;
+        }
+        .special-button:hover::before { left: 100%; }
+        .special-button:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(241, 141, 158, 0.3); }
+
+        /* Confetti puntual (usado en portada/sorpresa) */
+        .confetti {
+            position: absolute; width: 10px; height: 10px; background: #f0f;
+            animation: confetti-fall 3s linear infinite;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
         /* Footer */
         .footer { text-align: center; padding: 50px 20px; color: white; }
         .footer h3 { font-size: 2rem; margin-bottom: 20px; }
@@ -372,10 +342,9 @@
             .number-21 { font-size: 8rem; }
             .hero h1 { font-size: 2rem; }
             .hero p  { font-size: 1.2rem; }
-            .countdown-item { min-width: 80px; }
-            .countdown-number { font-size: 2rem; }
             .gift-card-container { height: 350px; }
             .gold-title { bottom: 10%; }
+            .wishes-image { max-height: 250px; }
         }
         @media (max-width: 480px) {
             .gift-card-container { height: 300px; }
@@ -384,6 +353,7 @@
             .gift-back-text  { font-size: 0.9rem; margin-bottom: 20px; }
             .gift-link { padding: 12px 30px; font-size: 1rem; }
             .gold-title { bottom: 12%; }
+            .wishes-image { max-height: 200px; }
         }
     </style>
 </head>
@@ -416,6 +386,20 @@
             <p>Hoy celebramos no solo un año más de vida, sino 21 años de luz, alegría y momentos inolvidables</p>
         </section>
 
+        <!-- Sección de Deseos -->
+        <section class="wishes">
+            <h2>Mis Deseos Para Ti</h2>
+            <div class="wishes-image-container">
+                <img src="imagen4.png" alt="Imagen especial" class="wishes-image">
+            </div>
+            <div class="wish-text">
+                En este día tan especial, deseo que los próximos 21 años estén llenos de aventuras increíbles, 
+                sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad 
+                para brillar y que nunca olvides lo extraordinario/a que eres.
+            </div>
+            <a class="special-button" onclick="showSurprise()">¡Haz Click Para Una Sorpresa!</a>
+        </section>
+
         <!-- Galería de Regalos -->
         <section class="gift-carousel">
             <h2>Galería de Regalos 🎁</h2>
@@ -424,8 +408,6 @@
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
                 </ol>
                 <div class="carousel-inner">
                     <!-- Regalo 1 -->
@@ -473,36 +455,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Regalo 4 -->
-                    <div class="carousel-item">
-                        <div class="gift-card-container" onclick="flipCard(this)">
-                            <div class="gift-card">
-                                <div class="gift-card-face gift-card-front">
-                                    <img src="imagen4.png" alt="Regalo 4" class="gift-image-custom">
-                                </div>
-                                <div class="gift-card-face gift-card-back">
-                                    <h3 class="gift-back-title">Vale por un Día Perfecto</h3>
-                                    <p class="gift-back-text">Este vale es por un día completo haciendo todo lo que más te gusta. Tú eliges el plan y yo lo hago realidad.</p>
-                                    <a href="#" class="gift-link">Canjear Vale</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Regalo 5 -->
-                    <div class="carousel-item">
-                        <div class="gift-card-container" onclick="flipCard(this)">
-                            <div class="gift-card">
-                                <div class="gift-card-face gift-card-front">
-                                    <img src="imagen5.png" alt="Regalo 5" class="gift-image-custom">
-                                </div>
-                                <div class="gift-card-face gift-card-back">
-                                    <h3 class="gift-back-title">Nuestra Próxima Aventura</h3>
-                                    <p class="gift-back-text">He planeado un viaje sorpresa para nosotros. Prepárate para crear nuevos recuerdos inolvidables.</p>
-                                    <a href="#" class="gift-link">Ver Destino</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <button class="carousel-control-prev" onclick="changeSlide('prev')">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -512,36 +464,6 @@
                 </button>
             </div>
             <p class="carousel-help">Haz clic en cada tarjeta para descubrir tu regalo ✨</p>
-        </section>
-
-        <!-- Sección de Memorias -->
-        <section class="memories">
-            <h2>21 Razones Por Las Que Eres Especial</h2>
-            <div class="memory-grid">
-                <div class="memory-card"><h3>Tu Sonrisa ✨</h3><p>Esa sonrisa que ilumina hasta los días más grises y hace que todo valga la pena.</p></div>
-                <div class="memory-card"><h3>Tu Valentía 💪</h3><p>Por enfrentar cada desafío con determinación y nunca rendirte ante las adversidades.</p></div>
-                <div class="memory-card"><h3>Tu Creatividad 🎨</h3><p>La forma única en que ves el mundo y creas belleza en todo lo que tocas.</p></div>
-                <div class="memory-card"><h3>Tu Bondad 💝</h3><p>Por tener el corazón más grande y siempre estar dispuesto/a a ayudar a los demás.</p></div>
-                <div class="memory-card"><h3>Nuestra Historia 📖</h3><p>Cada momento compartido se ha convertido en un tesoro invaluable en mi corazón.</p></div>
-                <div class="memory-card"><h3>Tu Pasión 🔥</h3><p>La intensidad con la que vives cada momento y persigues tus sueños.</p></div>
-            </div>
-        </section>
-
-        <!-- Sección de Deseos -->
-        <section class="wishes">
-            <h2>Mis Deseos Para Ti</h2>
-            <div class="wish-text">
-                En este día tan especial, deseo que los próximos 21 años estén llenos de aventuras increíbles, 
-                sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad 
-                para brillar y que nunca olvides lo extraordinario/a que eres.
-            </div>
-            <!-- Cuenta Regresiva hasta Medianoche -->
-            <div class="countdown" id="countdown">
-                <div class="countdown-item"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Horas</div></div>
-                <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Minutos</div></div>
-                <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Segundos</div></div>
-            </div>
-            <a class="special-button" onclick="showSurprise()">¡Haz Click Para Una Sorpresa!</a>
         </section>
 
         <!-- Footer -->
@@ -697,23 +619,6 @@
             }, 700);
         }
 
-        // Cuenta regresiva
-        function updateCountdown() {
-            const now = new Date();
-            const midnight = new Date(); midnight.setHours(24,0,0,0);
-            const diff = midnight - now;
-            const hours = Math.max(0, Math.floor(diff / (1000*60*60)));
-            const minutes = Math.max(0, Math.floor((diff % (1000*60*60)) / (1000*60)));
-            const seconds = Math.max(0, Math.floor((diff % (1000*60)) / 1000));
-            const H = document.getElementById('hours');
-            const M = document.getElementById('minutes');
-            const S = document.getElementById('seconds');
-            if (H) H.textContent = String(hours).padStart(2,'0');
-            if (M) M.textContent = String(minutes).padStart(2,'0');
-            if (S) S.textContent = String(seconds).padStart(2,'0');
-        }
-        setInterval(updateCountdown, 1000); updateCountdown();
-
         // Sorpresa (botón dentro de deseos)
         function showSurprise() {
             for (let i = 0; i < 100; i++) {
@@ -728,27 +633,7 @@
             alert('¡Te amo! 💕 Este día es tan especial como tú. ¡Felices 21!');
         }
 
-        // Animación al hacer scroll en tarjetas
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        setTimeout(() => {
-            document.querySelectorAll('.memory-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(50px)';
-                card.style.transition = 'all 0.6s ease';
-                observer.observe(card);
-            });
-        }, 3000);
-
-        // Carrusel
+        // Carrusel actualizado para 3 slides
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-item');
         const indicators = document.querySelectorAll('.carousel-indicators li');
