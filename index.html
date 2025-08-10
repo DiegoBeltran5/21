@@ -190,7 +190,7 @@
             position: relative; text-align: center; color: white;
         }
         .number-21 {
-          font-size: 15rem; font-weight: bold;
+            font-size: 15rem; font-weight: bold;
             background: linear-gradient(45deg, var(--gold) 0%, #ff80b5 25%, #b084eb 50%, var(--plum) 75%);
             background-size: 400% 400%;
             -webkit-background-clip: text; background-clip: text;
@@ -198,7 +198,7 @@
             animation: gradient 3s ease infinite, pulse 2s ease-in-out infinite;
             text-shadow: 0 0 80px rgba(255, 255, 255, 0.5), 0 0 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 20px;
-            -webkit-text-stroke: 3px #CDB4DB; /* borde color ciruela profundo */
+            -webkit-text-stroke: 3px #6A0DAD; /* borde solicitado */
         }
         @keyframes gradient {
             0% { background-position: 0% 50%; }
@@ -371,6 +371,9 @@
     </style>
 </head>
 <body>
+    <!-- Audio oculto (se reproducirá al abrir el regalo) -->
+    <audio id="bgSong" src="cancion-fragmento.mp3" preload="auto" style="display:none"></audio>
+
     <!-- Regalo de apertura -->
     <div class="gift-wrapper" id="giftWrapper">
         <div class="gift-container" onclick="openGift()">
@@ -487,6 +490,27 @@
     </div>
 
     <script>
+        // ====== AUDIO: reproducir un fragmento al abrir el regalo ======
+        // Reemplaza "cancion-fragmento.mp3" por tu archivo. Colócalo junto al HTML o usa una URL.
+        // Configura el segundo de inicio y la duración del fragmento:
+        const SONG_START_SEC = 129;    // empieza en el segundo 206 (ajusta a gusto)
+        const SONG_DURATION_SEC = 440; // reproduce 440 segundos (ajústalo)
+
+        function playSongFragment(){
+            const a = document.getElementById('bgSong');
+            if(!a) return;
+            const doPlay = () => {
+                try { a.currentTime = SONG_START_SEC; } catch(e) {}
+                a.volume = 0.70; // volumen cómodo
+                const p = a.play();
+                if (p && p.catch) p.catch(() => {}); // por si el navegador bloquea
+                // Detener tras la duración definida
+                setTimeout(() => { try { a.pause(); } catch(e) {} }, SONG_DURATION_SEC * 1000);
+            };
+            if (a.readyState >= 1) { doPlay(); }
+            else { a.addEventListener('loadedmetadata', doPlay, { once: true }); a.load(); }
+        }
+
         // ✨ Sparkles (portada)
         const sparklesContainer = document.getElementById('sparkles');
         function createSparkle() {
@@ -598,6 +622,9 @@
 
         // Función para abrir el regalo
         function openGift() {
+            // 🎵 Reproducir fragmento de canción al primer clic (gesto del usuario)
+            try { playSongFragment(); } catch (e) {}
+
             const giftWrapper = document.getElementById('giftWrapper');
             const mainContent = document.getElementById('mainContent');
 
@@ -608,7 +635,7 @@
                 customImage.style.opacity = '0.85';
             }
 
-            // confetti rápido (explosión) en portada
+            // confeti rápido (explosión) en portada
             for (let i = 0; i < 150; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
