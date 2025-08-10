@@ -190,14 +190,15 @@
             position: relative; text-align: center; color: white;
         }
         .number-21 {
-            font-size: 15rem; font-weight: bold;
-            background: linear-gradient(45deg, var(--gold), var(--pink), var(--lavender), var(--plum));
+          font-size: 15rem; font-weight: bold;
+            background: linear-gradient(45deg, var(--gold) 0%, #ff80b5 25%, #b084eb 50%, var(--plum) 75%);
             background-size: 400% 400%;
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradient 3s ease infinite, pulse 2s ease-in-out infinite;
-            text-shadow: 0 0 80px rgba(205, 180, 219, 0.5);
+            text-shadow: 0 0 80px rgba(255, 255, 255, 0.5), 0 0 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 20px;
+            -webkit-text-stroke: 3px #CDB4DB; /* borde color ciruela profundo */
         }
         @keyframes gradient {
             0% { background-position: 0% 50%; }
