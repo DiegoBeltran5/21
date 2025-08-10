@@ -1,715 +1,389 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>¡Felices 21! 🎉</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¡Felices 21! 🎉</title>
 
-    <!-- ✨ fuente elegante -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- ✨ fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root{
-            /* 🎨 Paleta rosa champagne */
-            --pink:#F7C6D9;
-            --lavender:#CDB4DB;
-            --champagne:#FCEFEF;
-            --gold:#FFD700;
-            --plum:#6A0DAD;
-            --ivory:#FFF8F0;
-            --text-dark:#4A3B53;
-        }
+    :root{
+      /* 🎨 Paleta rosa champagne */
+      --pink:#F7C6D9;
+      --lavender:#CDB4DB;
+      --champagne:#FCEFEF;
+      --gold:#FFD700;
+      --plum:#6A0DAD;
+      --ivory:#FFF8F0;
+      --text-dark:#3E3248;
+      /* zona segura para no tapar texto con las flechas */
+      --arrow-safe: 76px; /* desktop */
+    }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, var(--pink) 0%, var(--lavender) 50%, var(--plum) 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+    @media (max-width: 768px){
+      :root{ --arrow-safe: 54px; }
+    }
 
-        /* Regalo Inicial (pantalla de inicio negra) */
-        .gift-wrapper {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1s ease, transform 1s ease;
-            overflow: hidden;
-        }
-        .gift-wrapper.hidden {
-            opacity: 0;
-            transform: scale(1.05);
-            pointer-events: none;
-        }
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--pink) 0%, var(--lavender) 50%, var(--plum) 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      color: var(--text-dark);
+    }
 
-        .gift-container {
-            position: relative;
-            cursor: pointer;
-            width: min(90vw, 700px);
-        }
+    /* Regalo Inicial */
+    .gift-wrapper { position: fixed; inset: 0; background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 1s ease, transform 1s ease; overflow: hidden; }
+    .gift-wrapper.hidden { opacity: 0; transform: scale(1.05); pointer-events: none; }
+    .gift-container { position: relative; cursor: pointer; width: min(90vw, 700px); }
 
-        /* Imagen inicial responsive */
-        .custom-image-container { position: relative; width: 100%; }
-        .custom-image {
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-            display: block;
-        }
-        .custom-image-container:hover .custom-image {
-            transform: scale(1.02);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-        }
+    .custom-image-container { position: relative; width: 100%; }
+    .custom-image { width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; display: block; }
+    .custom-image-container:hover .custom-image { transform: scale(1.02); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
 
-        /* Sparkles a pantalla completa en la portada */
-        .sparkles {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            overflow: visible;
-            z-index: 10000;
-        }
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: sparkle 3s linear forwards;
-            box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
-            opacity: 0;
-        }
-        @keyframes sparkle {
-            0%   { opacity: 0; transform: translateY(0) scale(0.6); }
-            20%  { opacity: 1; }
-            60%  { opacity: 1; transform: translateY(-30px) scale(1); }
-            100% { opacity: 0; transform: translateY(-60px) scale(0.4); }
-        }
+    .sparkles { position: fixed; inset: 0; pointer-events: none; overflow: visible; z-index: 10000; }
+    .sparkle { position: absolute; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; animation: sparkle 3s linear forwards; box-shadow: 0 0 6px rgba(255, 215, 0, 0.8); opacity: 0; }
+    @keyframes sparkle { 0%{opacity:0; transform: translateY(0) scale(0.6);} 20%{opacity:1;} 60%{opacity:1; transform: translateY(-30px) scale(1);} 100%{opacity:0; transform: translateY(-60px) scale(0.4);} }
 
-        /* ✨ dorado: título animado */
-        .gold-title {
-            position: fixed;
-            left: 50%;
-            bottom: 8%;
-            transform: translateX(-50%);
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.2rem, 8vw, 4.6rem);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: var(--gold);
-            text-align: center;
-            white-space: nowrap;
-            text-shadow:
-                0 0 10px rgba(255, 215, 0, 0.6),
-                0 0 20px rgba(255, 215, 0, 0.5),
-                0 0 30px rgba(255, 215, 0, 0.4);
-            z-index: 10002;
-            pointer-events: none;
-            opacity: 0;
-            animation:
-                introRise 0.9s ease-out 0.15s forwards,
-                shimmer 3s 1s infinite,
-                floatText 3s 1s ease-in-out infinite;
-        }
-        @keyframes introRise {
-            0%   { opacity: 0; transform: translate(-50%, 20px) scale(0.98); }
-            60%  { opacity: 1; transform: translate(-50%, -3px) scale(1.01); }
-            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-        }
-        @keyframes shimmer {
-            0%   { text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.5), 0 0 30px rgba(255,215,0,0.4); }
-            50%  { text-shadow: 0 0 20px rgba(255,215,0,0.9), 0 0 40px rgba(255,215,0,0.8), 0 0 60px rgba(255,215,0,0.7); }
-            100% { text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.5), 0 0 30px rgba(255,215,0,0.4); }
-        }
-        @keyframes floatText {
-            0%, 100% { transform: translate(-50%, 0); }
-            50%      { transform: translate(-50%, -10px); }
-        }
+    .gold-title { position: fixed; left: 50%; bottom: 8%; transform: translateX(-50%); font-family: 'Great Vibes', cursive; font-size: clamp(2.2rem, 8vw, 4.6rem); font-weight: 700; letter-spacing: 0.5px; color: var(--gold); text-align: center; white-space: nowrap; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.4); z-index: 10002; pointer-events: none; opacity: 0; animation: introRise 0.9s ease-out 0.15s forwards, shimmer 3s 1s infinite, floatText 3s 1s ease-in-out infinite; }
+    @keyframes introRise { 0%{opacity:0; transform: translate(-50%, 20px) scale(0.98);} 60%{opacity:1; transform: translate(-50%, -3px) scale(1.01);} 100%{opacity:1; transform: translate(-50%, 0) scale(1);} }
+    @keyframes shimmer { 0%{text-shadow:0 0 10px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.5),0 0 30px rgba(255,215,0,0.4);} 50%{text-shadow:0 0 20px rgba(255,215,0,0.9),0 0 40px rgba(255,215,0,0.8),0 0 60px rgba(255,215,0,0.7);} 100%{text-shadow:0 0 10px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.5),0 0 30px rgba(255,215,0,0.4);} }
+    @keyframes floatText { 0%,100%{ transform: translate(-50%, 0);} 50%{ transform: translate(-50%, -10px);} }
 
-        /* Contenido Principal (oculto inicialmente) */
-        .main-content {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 2s ease;
-        }
-        .main-content.visible {
-            opacity: 1;
-            visibility: visible;
-        }
+    .main-content { opacity: 0; visibility: hidden; transition: opacity 2s ease; }
+    .main-content.visible { opacity: 1; visibility: visible; }
 
-        /* ====== EFECTOS PRINCIPALES DESPUÉS DE ABRIR ====== */
+    #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
-        /* Confeti canvas */
-        #confetti-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5; /* debajo de globos, encima del contenido */
-        }
+    #balloons-container { position: fixed; inset: 0; pointer-events: none; z-index: 6; overflow: hidden; }
+    .balloon { position: absolute; bottom: -10vh; font-size: 2rem; filter: hue-rotate(0deg); animation: balloonUp linear forwards; will-change: transform; }
+    @keyframes balloonUp { 0%{ transform: translate(var(--x, 0), 100vh) scale(1); opacity: 0.95;} 70%{opacity:1;} 100%{ transform: translate(calc(var(--x, 0) + var(--drift, 0px)), -20vh) scale(1.15); opacity:0;} }
 
-        /* Globos */
-        #balloons-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 6;
-            overflow: hidden;
-        }
-        .balloon {
-            position: absolute;
-            bottom: -10vh;
-            font-size: 2rem;
-            filter: hue-rotate(0deg);
-            animation: balloonUp linear forwards;
-            will-change: transform;
-        }
-        @keyframes balloonUp {
-            0%   { transform: translate(var(--x, 0), 100vh) scale(1); opacity: 0.95; }
-            70%  { opacity: 1; }
-            100% { transform: translate(calc(var(--x, 0) + var(--drift, 0px)), -20vh) scale(1.15); opacity: 0; }
-        }
+    /* Hero */
+    .hero { height: 100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; text-align:center; color:white; }
+    .number-21 { font-size: 15rem; font-weight: 700; background: linear-gradient(45deg, var(--gold) 0%, #ff80b5 25%, #b084eb 50%, var(--plum) 75%); background-size: 400% 400%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation: gradient 3s ease infinite, pulse 2s ease-in-out infinite; text-shadow: 0 0 80px rgba(255,255,255,0.5), 0 0 30px rgba(0,0,0,0.4); margin-bottom: 20px; -webkit-text-stroke: 3px var(--plum); }
+    @keyframes gradient { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+    @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+    .hero h1 { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: 0.3px; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 20px; opacity: 0; animation: fadeInUp 1s ease forwards 0.5s; }
+    .hero p { font-size: clamp(1.05rem, 2.2vw, 1.4rem); opacity: 0; animation: fadeInUp 1s ease forwards 1s; max-width: 760px; padding: 0 20px; }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
 
-        /* Partículas emoji (no usada) */
-        .particle { display:none; }
+    /* Sección de Deseos */
+    .wishes { text-align:center; padding: 80px 20px; background: rgba(255,248,240,0.95); border-radius: 30px; max-width: 900px; margin: 50px auto; position: relative; box-shadow: 0 15px 35px rgba(106, 13, 173, 0.18); }
+    .wishes h2 { font-family: 'Playfair Display', serif; color: var(--plum); font-size: clamp(1.8rem, 4.2vw, 2.4rem); margin-bottom: 24px; }
+    .wish-text { font-size: clamp(1rem, 2.2vw, 1.15rem); line-height: 1.9; color: var(--text-dark); margin: 22px auto 0; max-width: 700px; letter-spacing: 0.2px; }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            position: relative; text-align: center; color: white;
-        }
-        .number-21 {
-            font-size: 15rem; font-weight: bold;
-            background: linear-gradient(45deg, var(--gold) 0%, #ff80b5 25%, #b084eb 50%, var(--plum) 75%);
-            background-size: 400% 400%;
-            -webkit-background-clip: text; background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient 3s ease infinite, pulse 2s ease-in-out infinite;
-            text-shadow: 0 0 80px rgba(255, 255, 255, 0.5), 0 0 30px rgba(0, 0, 0, 0.4);
-            margin-bottom: 20px;
-            -webkit-text-stroke: 3px #6A0DAD; /* borde solicitado */
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; opacity: 0; animation: fadeInUp 1s ease forwards 0.5s; }
-        .hero p  { font-size: 1.5rem; opacity: 0; animation: fadeInUp 1s ease forwards 1s; max-width: 600px; padding: 0 20px; }
-        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+    .wishes-image-container { display:flex; justify-content:center; margin: 26px 0 6px; }
+    .wishes-image { max-width:100%; height:auto; max-height:400px; border-radius:20px; box-shadow: 0 15px 35px rgba(205,180,219,0.3); transition: transform 0.3s ease; }
+    .wishes-image:hover { transform: scale(1.02); }
 
-        /* Sección de Deseos */
-        .wishes { 
-            text-align: center; 
-            padding: 80px 20px; 
-            background: rgba(255,248,240,0.95); /* ivory translúcido */
-            border-radius: 30px; 
-            max-width: 900px; 
-            margin: 50px auto; 
-            position: relative;
-            box-shadow: 0 15px 35px rgba(106, 13, 173, 0.18);
-        }
-        .wishes h2 { color: var(--plum); font-size: 2.5rem; margin-bottom: 30px; }
-        .wish-text { font-size: 1.2rem; line-height: 2; color: var(--text-dark); margin-bottom: 40px; }
-        
-        /* Contenedor de imagen en sección deseos */
-        .wishes-image-container {
-            display: flex;
-            justify-content: center;
-            margin: 30px 0;
-        }
-        .wishes-image {
-            max-width: 100%;
-            height: auto;
-            max-height: 400px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(205, 180, 219, 0.3);
-            transition: transform 0.3s ease;
-        }
-        .wishes-image:hover {
-            transform: scale(1.02);
-        }
+    /* Carrusel */
+    .gift-carousel { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+    .gift-carousel h2 { font-family: 'Playfair Display', serif; text-align:center; color:#fff; font-size: clamp(1.8rem, 4.2vw, 2.5rem); margin-bottom: 50px; text-shadow: 2px 2px 6px rgba(0,0,0,0.35); }
 
-        /* Galería de Regalos - Carrusel */
-        .gift-carousel { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
-        .gift-carousel h2 {
-            text-align: center; color: #fff; font-size: 2.5rem; margin-bottom: 50px;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
-        }
-        .carousel { position: relative; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .carousel-inner { position: relative; width: 100%; overflow: hidden; }
-        .carousel-item { display: none; position: relative; width: 100%; }
-        .carousel-item.active { display: block; }
+    .carousel { position: relative; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .carousel-inner { position: relative; width: 100%; overflow: hidden; }
+    .carousel-item { display: none; position: relative; width: 100%; }
+    .carousel-item.active { display: block; }
 
-        /* Carta que gira */
-        .gift-card-container { position: relative; width: 100%; max-width: 800px; height: 500px; margin: 0 auto; perspective: 1000px; cursor: pointer; }
-        @media (min-width: 1200px) { .gift-card-container { max-width: 900px; height: 600px; } }
-        @media (min-width: 1600px) { .gift-card-container { max-width: 1000px; height: 650px; } }
+    /* Tarjeta que gira */
+    .gift-card-container { position: relative; width: 100%; max-width: 800px; height: 500px; margin: 0 auto; perspective: 1000px; cursor: pointer; }
+    @media (min-width: 1200px){ .gift-card-container{ max-width: 900px; height: 600px; } }
+    @media (min-width: 1600px){ .gift-card-container{ max-width: 1000px; height: 650px; } }
 
-        .gift-card { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.8s; }
-        .gift-card.flipped { transform: rotateY(180deg); }
-        .gift-card-face {
-            position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 40px; overflow: hidden;
-        }
-        .gift-card-front { background: linear-gradient(135deg, var(--champagne), var(--pink)); border: 4px solid var(--gold); padding: 0; }
-        .gift-card-back { background: var(--ivory); transform: rotateY(180deg); border: 4px solid var(--lavender); }
-        .gift-image-custom { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
-        .gift-back-title { font-size: 2rem; color: var(--lavender); font-weight: bold; margin-bottom: 20px; }
-        .gift-back-text  { font-size: 1.2rem; color: var(--text-dark); text-align: center; line-height: 1.8; margin-bottom: 30px; max-width: 600px; }
+    .gift-card { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.8s; }
+    .gift-card.flipped { transform: rotateY(180deg); }
+    .gift-card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 20px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 40px var(--arrow-safe); overflow: hidden; }
+    .gift-card-front { background: linear-gradient(135deg, var(--champagne), var(--pink)); border: 4px solid var(--gold); padding: 0; }
+    .gift-card-back { background: var(--ivory); transform: rotateY(180deg); border: 4px solid var(--lavender); }
 
-        @media (min-width: 1200px) {
-            .gift-back-title { font-size: 2.5rem; margin-bottom: 30px; }
-            .gift-back-text  { font-size: 1.4rem; line-height: 2; }
-            .gift-link { font-size: 1.3rem; padding: 20px 50px; }
-        }
+    .gift-image-custom { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
 
-        .gift-link {
-            display: inline-block; padding: 15px 40px;
-            background: linear-gradient(45deg, var(--pink), var(--gold));
-            color: white; text-decoration: none; border-radius: 30px; font-size: 1.1rem;
-            transition: all 0.3s ease; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        .gift-link:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(255, 215, 0, 0.35); }
+    .gift-back-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(1.35rem, 2.6vw, 1.9rem); color: var(--lavender); margin-bottom: 14px; letter-spacing: 0.2px; text-align:center; }
+    .gift-back-text  { font-size: clamp(0.95rem, 2vw, 1.08rem); color: var(--text-dark); text-align: center; line-height: 1.8; margin: 8px auto 22px; max-width: 620px; letter-spacing: 0.15px; }
 
-        /* Controles del carrusel */
-        .carousel-control-prev,
-        .carousel-control-next {
-            position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
-            width: 15%; color: #fff; text-align: center; opacity: 0.9; transition: opacity 0.3s; cursor: pointer; z-index: 1; background: none; border: none;
-        }
-        .carousel-control-prev:hover, .carousel-control-next:hover { opacity: 1; }
-        .carousel-control-prev { left: 0; } .carousel-control-next { right: 0; }
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            display: inline-block; width: 40px; height: 40px; background: var(--plum); border-radius: 50%; position: relative; box-shadow: 0 6px 16px rgba(106,13,173,0.3);
-        }
-        .carousel-control-prev-icon::before,
-        .carousel-control-next-icon::before {
-            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 0; height: 0; border-style: solid;
-        }
-        .carousel-control-prev-icon::before { border-width: 10px 15px 10px 0; border-color: transparent white transparent transparent; margin-left: -5px; }
-        .carousel-control-next-icon::before { border-width: 10px 0 10px 15px; border-color: transparent transparent transparent white; margin-left: 5px; }
+    .gift-link { display:inline-block; padding: 13px 34px; background: linear-gradient(45deg, var(--pink), var(--gold)); color:#fff; text-decoration:none; border-radius: 30px; font-size: 1rem; font-weight:600; transition: all 0.3s ease; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+    .gift-link:hover { transform: translateY(-1px) scale(1.04); box-shadow: 0 15px 30px rgba(255, 215, 0, 0.35); }
 
-        /* Indicadores */
-        .carousel-indicators {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 10px; z-index: 2; list-style: none; padding: 0; margin: 0;
-        }
-        .carousel-indicators li {
-            width: 12px; height: 12px; border-radius: 50%;
-            background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s ease;
-        }
-        .carousel-indicators li.active { background: var(--gold); transform: scale(1.3); }
+    /* Controles del carrusel: más estrechos para no tapar el texto */
+    .carousel-control-prev, .carousel-control-next { position: absolute; top: 0; bottom: 0; display:flex; align-items:center; justify-content:center; width: 12%; color:#fff; text-align:center; opacity: 0.92; transition: opacity 0.3s; cursor: pointer; z-index: 2; background: none; border: none; }
+    @media (max-width: 768px){ .carousel-control-prev, .carousel-control-next{ width: 16%; } }
+    .carousel-control-prev:hover, .carousel-control-next:hover { opacity: 1; }
+    .carousel-control-prev { left: 0; } .carousel-control-next { right: 0; }
+    .carousel-control-prev-icon, .carousel-control-next-icon { display:inline-block; width: 40px; height: 40px; background: var(--plum); border-radius: 50%; position: relative; box-shadow: 0 6px 16px rgba(106,13,173,0.3); }
+    .carousel-control-prev-icon::before, .carousel-control-next-icon::before { content:''; position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); width:0; height:0; border-style: solid; }
+    .carousel-control-prev-icon::before { border-width: 10px 15px 10px 0; border-color: transparent white transparent transparent; margin-left: -5px; }
+    .carousel-control-next-icon::before { border-width: 10px 0 10px 15px; border-color: transparent transparent transparent white; margin-left: 5px; }
 
-        .carousel-help { text-align: center; color: rgba(255,255,255,0.9); margin-top: 20px; font-size: 1.1rem; }
+    .carousel-indicators { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display:flex; gap:10px; z-index: 2; list-style:none; padding:0; margin:0; }
+    .carousel-indicators li { width:12px; height:12px; border-radius:50%; background: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.3s ease; }
+    .carousel-indicators li.active { background: var(--gold); transform: scale(1.2); }
 
-        /* Botón Especial */
-        .special-button {
-            display: inline-block; padding: 20px 60px;
-            background: linear-gradient(45deg, var(--pink), var(--gold));
-            color: white; text-decoration: none; border-radius: 50px;
-            font-size: 1.2rem; font-weight: bold; margin-top: 30px;
-            transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        .special-button::before {
-            content: ''; position: absolute; inset: 0; left: -100%;
-            background: rgba(247, 198, 217, 0.3); transition: left 0.5s ease;
-        }
-        .special-button:hover::before { left: 100%; }
-        .special-button:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(255, 215, 0, 0.35); }
+    .carousel-help { text-align:center; color: rgba(255,255,255,0.92); margin-top: 20px; font-size: 1.05rem; }
 
-        /* Confetti puntual (usado en portada/sorpresa) */
-        .confetti {
-            position: absolute; width: 10px; height: 10px; background: #f0f; /* se sobreescribe en JS */
-            animation: confetti-fall 3s linear infinite;
-        }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
+    /* Botón Especial */
+    .special-button { display:inline-block; padding: 18px 52px; background: linear-gradient(45deg, var(--pink), var(--gold)); color:white; text-decoration:none; border-radius: 50px; font-size: 1.1rem; font-weight:700; margin-top: 28px; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); letter-spacing: 0.2px; }
+    .special-button::before { content:''; position:absolute; inset:0; left:-100%; background: rgba(247,198,217,0.3); transition: left 0.5s ease; }
+    .special-button:hover::before { left:100%; }
+    .special-button:hover { transform: translateY(-1px) scale(1.03); box-shadow: 0 15px 35px rgba(255, 215, 0, 0.35); }
 
-        /* Footer */
-        .footer { text-align: center; padding: 50px 20px; color: white; }
-        .footer h3 { font-size: 2rem; margin-bottom: 20px; }
-        .heart { display: inline-block; color: var(--pink); font-size: 2rem; animation: heartbeat 1.5s ease-in-out infinite; }
-        @keyframes heartbeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
+    .confetti { position:absolute; width:10px; height:10px; background:#f0f; animation: confetti-fall 3s linear infinite; }
+    @keyframes confetti-fall { 0%{ transform: translateY(-100vh) rotate(0deg); opacity:1;} 100%{ transform: translateY(100vh) rotate(720deg); opacity:0;} }
 
-        /* Responsive finos */
-        @media (max-width: 768px) {
-            .number-21 { font-size: 8rem; }
-            .hero h1 { font-size: 2rem; }
-            .hero p  { font-size: 1.2rem; }
-            .gift-card-container { height: 350px; }
-            .gold-title { bottom: 10%; }
-            .wishes-image { max-height: 250px; }
-        }
-        @media (max-width: 480px) {
-            .gift-card-container { height: 300px; }
-            .gift-card-face { padding: 0px; }
-            .gift-back-title { font-size: 1.3rem; margin-bottom: 15px; }
-            .gift-back-text  { font-size: 0.9rem; margin-bottom: 20px; }
-            .gift-link { padding: 12px 30px; font-size: 1rem; }
-            .gold-title { bottom: 12%; }
-            .wishes-image { max-height: 200px; }
-        }
-    </style>
+    .footer { text-align:center; padding: 50px 20px; color:white; }
+    .footer h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 18px; letter-spacing: 0.2px; }
+    .heart { display:inline-block; color: var(--pink); font-size: 2rem; animation: heartbeat 1.5s ease-in-out infinite; }
+    @keyframes heartbeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
+
+    /* Responsive */
+    @media (max-width: 768px){
+      .number-21 { font-size: 8rem; }
+      .gift-card-container { height: 360px; }
+      .gold-title { bottom: 10%; }
+      .wishes-image { max-height: 250px; }
+    }
+    @media (max-width: 480px){
+      .gift-card-container { height: 310px; }
+      .gift-card-face { padding: 24px var(--arrow-safe); }
+      .gift-back-title { font-size: 1.2rem; }
+      .gift-back-text { font-size: 0.95rem; }
+      .gift-link { padding: 12px 28px; font-size: 0.95rem; }
+      .gold-title { bottom: 12%; }
+      .wishes-image { max-height: 200px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Audio oculto (se reproducirá al abrir el regalo) -->
-    <audio id="bgSong" src="cancion-fragmento.mp3" preload="auto" style="display:none"></audio>
+  <!-- Audio oculto (se reproducirá al abrir el regalo) -->
+  <audio id="bgSong" src="cancion-fragmento.mp3" preload="auto" style="display:none"></audio>
 
-    <!-- Regalo de apertura -->
-    <div class="gift-wrapper" id="giftWrapper">
-        <div class="gift-container" onclick="openGift()">
-            <div class="custom-image-container">
-                <img src="portada.png" alt="Regalo especial" class="custom-image">
-            </div>
-        </div>
-
-        <!-- ✨ dorado: título en portada -->
-        <div class="gold-title">Feliz Cumple #21</div>
-
-        <!-- ✨ sparkles a pantalla completa -->
-        <div class="sparkles" id="sparkles"></div>
+  <!-- Regalo de apertura -->
+  <div class="gift-wrapper" id="giftWrapper">
+    <div class="gift-container" onclick="openGift()">
+      <div class="custom-image-container">
+        <img src="portada.png" alt="Regalo especial" class="custom-image">
+      </div>
     </div>
 
-    <!-- Contenido Principal -->
-    <div class="main-content" id="mainContent">
-        <!-- Lienzo de confeti y contenedor de globos (se muestran al abrir) -->
-        <canvas id="confetti-canvas"></canvas>
-        <div id="balloons-container"></div>
+    <!-- ✨ dorado: título en portada -->
+    <div class="gold-title">Feliz Cumple #21</div>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="number-21">21</div>
-            <h1>¡Feliz Cumpleaños!</h1>
-            <p>Negrita de mi corazón, hoy celebro este recordatorio tu amada existencia. Gracias por hacerme el hombre más feliz.</p>
-        </section>
+    <!-- ✨ sparkles a pantalla completa -->
+    <div class="sparkles" id="sparkles"></div>
+  </div>
 
-        <!-- Sección de Deseos -->
-        <section class="wishes">
-            <h2>A Mar:</h2>
-            <div class="wishes-image-container">
-                <img src="imagen4.png" alt="Imagen especial" class="wishes-image">
-            </div>
-            <div class="wish-text">
-                En este día tan especial, deseo que los próximos 21 años estén llenos de aventuras increíbles, 
-                sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad 
-                para brillar y que nunca olvides lo extraordinario/a que eres.
-            </div>
-            <a class="special-button" onclick="showSurprise()">¡Haz Click Para Una Sorpresa!</a>
-        </section>
+  <!-- Contenido Principal -->
+  <div class="main-content" id="mainContent">
+    <canvas id="confetti-canvas"></canvas>
+    <div id="balloons-container"></div>
 
-        <!-- Galería de Regalos -->
-        <section class="gift-carousel">
-            <h2>Un carrusel  de regalos 🤍</h2>
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <!-- Regalo 1 -->
-                    <div class="carousel-item active">
-                        <div class="gift-card-container" onclick="flipCard(this)">
-                            <div class="gift-card">
-                                <div class="gift-card-face gift-card-front">
-                                    <img src="imagen1.png" alt="Regalo 1" class="gift-image-custom">
-                                </div>
-                                <div class="gift-card-face gift-card-back">
-                                    <h3 class="gift-back-title">Amor por las letras</h3>
-                                    <p class="gift-back-text">Desde niña comprendiste que la literatura no es sólo un refugio, sino el manantial que transforma la aridez de la vida.</p>
-                                    <a href="https://spotify.com" class="gift-link" target="_blank">Abrir Regalo</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Regalo 2 -->
-                    <div class="carousel-item">
-                        <div class="gift-card-container" onclick="flipCard(this)">
-                            <div class="gift-card">
-                                <div class="gift-card-face gift-card-front">
-                                    <img src="imagen2.png" alt="Regalo 2" class="gift-image-custom">
-                                </div>
-                                <div class="gift-card-face gift-card-back">
-                                    <h3 class="gift-back-title">Paleta de sueños</h3>
-                                    <p class="gift-back-text">Descubriste que el arte también podía vivirse sobre la piel; cada trazo y cada color eran pinceladas que revelaban tu esencia, un lienzo en el que la belleza y la creatividad se daban la mano.</p>
-                                    <a href="https://photos.google.com" class="gift-link" target="_blank">Abrir Regalo</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Regalo 3 -->
-                    <div class="carousel-item">
-                        <div class="gift-card-container" onclick="flipCard(this)">
-                            <div class="gift-card">
-                                <div class="gift-card-face gift-card-front">
-                                    <img src="imagen3.png" alt="Regalo 3" class="gift-image-custom">
-                                </div>
-                                <div class="gift-card-face gift-card-back">
-                                    <h3 class="gift-back-title">Nuevos horizontes</h3>
-                                    <p class="gift-back-text">Hoy, entre libros y responsabilidades, una nueva puerta se abre ante ti. Cada nueva jornada te envuelve con la determinación y la gracia de quien avanza sabiendo que su destino le pertenece.</p>
-                                    <a href="https://youtube.com" class="gift-link" target="_blank">Abrir Regalo</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="number-21">21</div>
+      <h1>¡Feliz Cumpleaños!</h1>
+      <p>Negrita de mi corazón, hoy celebro este recordatorio tu amada existencia. Gracias por hacerme el hombre más feliz.</p>
+    </section>
+
+    <!-- Sección de Deseos -->
+    <section class="wishes">
+      <h2>A Mar:</h2>
+      <div class="wishes-image-container">
+        <img src="imagen4.png" alt="Imagen especial" class="wishes-image">
+      </div>
+      <div class="wish-text">
+        En este día tan especial, deseo que los próximos 21 años estén llenos de aventuras increíbles,
+        sueños cumplidos y momentos de felicidad infinita. Que cada día sea una nueva oportunidad
+        para brillar y que nunca olvides lo extraordinario/a que eres.
+      </div>
+      <a class="special-button" onclick="showSurprise()">¡Haz Click Para Una Sorpresa!</a>
+    </section>
+
+    <!-- Galería de Regalos -->
+    <section class="gift-carousel">
+      <h2>Un carrusel  de regalos 🤍</h2>
+      <div id="carouselExampleIndicators" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <!-- Regalo 1 -->
+          <div class="carousel-item active">
+            <div class="gift-card-container" onclick="flipCard(this)">
+              <div class="gift-card">
+                <div class="gift-card-face gift-card-front">
+                  <img src="imagen1.png" alt="Regalo 1" class="gift-image-custom">
                 </div>
-                <button class="carousel-control-prev" onclick="changeSlide('prev')">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" onclick="changeSlide('next')">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
+                <div class="gift-card-face gift-card-back">
+                  <h3 class="gift-back-title">Amor por las letras</h3>
+                  <p class="gift-back-text">Desde niña comprendiste que la literatura no es sólo un refugio, sino el manantial que transforma la aridez de la vida.</p>
+                  <a href="https://spotify.com" class="gift-link" target="_blank">Abrir Regalo</a>
+                </div>
+              </div>
             </div>
-            <p class="carousel-help">Haz clic en cada tarjeta para descubrir tu regalo ✨</p>
-        </section>
+          </div>
+          <!-- Regalo 2 -->
+          <div class="carousel-item">
+            <div class="gift-card-container" onclick="flipCard(this)">
+              <div class="gift-card">
+                <div class="gift-card-face gift-card-front">
+                  <img src="imagen2.png" alt="Regalo 2" class="gift-image-custom">
+                </div>
+                <div class="gift-card-face gift-card-back">
+                  <h3 class="gift-back-title">Paleta de sueños</h3>
+                  <p class="gift-back-text">Descubriste que el arte también podía vivirse sobre la piel; cada trazo y cada color eran pinceladas que revelaban tu esencia, un lienzo en el que la belleza y la creatividad se daban la mano.</p>
+                  <a href="https://photos.google.com" class="gift-link" target="_blank">Abrir Regalo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Regalo 3 -->
+          <div class="carousel-item">
+            <div class="gift-card-container" onclick="flipCard(this)">
+              <div class="gift-card">
+                <div class="gift-card-face gift-card-front">
+                  <img src="imagen3.png" alt="Regalo 3" class="gift-image-custom">
+                </div>
+                <div class="gift-card-face gift-card-back">
+                  <h3 class="gift-back-title">Nuevos horizontes</h3>
+                  <p class="gift-back-text">Hoy, entre libros y responsabilidades, una nueva puerta se abre ante ti. Cada nueva jornada te envuelve con la determinación y la gracia de quien avanza sabiendo que su destino le pertenece.</p>
+                  <a href="https://youtube.com" class="gift-link" target="_blank">Abrir Regalo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" onclick="changeSlide('prev')">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" onclick="changeSlide('next')">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="carousel-help">Haz clic en cada tarjeta para descubrir tu regalo ✨</p>
+    </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <h3>Con Todo Mi Amor <span class="heart">❤</span></h3>
-            <p>Este es solo el comienzo de una vida llena de felicidad</p>
-        </footer>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <h3>Con Todo Mi Amor <span class="heart">❤</span></h3>
+      <p>Este es solo el comienzo de una vida llena de felicidad</p>
+    </footer>
+  </div>
 
-    <script>
-        // ====== AUDIO: reproducir un fragmento al abrir el regalo ======
-        // Reemplaza "cancion-fragmento.mp3" por tu archivo. Colócalo junto al HTML o usa una URL.
-        // Configura el segundo de inicio y la duración del fragmento:
-        const SONG_START_SEC = 129;    // empieza en el segundo 206 (ajusta a gusto)
-        const SONG_DURATION_SEC = 440; // reproduce 440 segundos (ajústalo)
+  <script>
+    // ====== AUDIO: reproducir un fragmento al abrir el regalo ======
+    const SONG_START_SEC = 129;    // ajusta a gusto
+    const SONG_DURATION_SEC = 440; // ajusta a gusto
+    function playSongFragment(){
+      const a = document.getElementById('bgSong');
+      if(!a) return;
+      const doPlay = () => {
+        try { a.currentTime = SONG_START_SEC; } catch(e) {}
+        a.volume = 0.70;
+        const p = a.play();
+        if (p && p.catch) p.catch(() => {});
+        setTimeout(() => { try { a.pause(); } catch(e) {} }, SONG_DURATION_SEC * 1000);
+      };
+      if (a.readyState >= 1) { doPlay(); }
+      else { a.addEventListener('loadedmetadata', doPlay, { once: true }); a.load(); }
+    }
 
-        function playSongFragment(){
-            const a = document.getElementById('bgSong');
-            if(!a) return;
-            const doPlay = () => {
-                try { a.currentTime = SONG_START_SEC; } catch(e) {}
-                a.volume = 0.70; // volumen cómodo
-                const p = a.play();
-                if (p && p.catch) p.catch(() => {}); // por si el navegador bloquea
-                // Detener tras la duración definida
-                setTimeout(() => { try { a.pause(); } catch(e) {} }, SONG_DURATION_SEC * 1000);
-            };
-            if (a.readyState >= 1) { doPlay(); }
-            else { a.addEventListener('loadedmetadata', doPlay, { once: true }); a.load(); }
-        }
+    // ✨ Sparkles (portada)
+    const sparklesContainer = document.getElementById('sparkles');
+    function createSparkle(){
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.style.left = (Math.random()*100) + 'vw';
+      s.style.top  = (Math.random()*100) + 'vh';
+      const size = (Math.random()*6 + 3);
+      s.style.width = s.style.height = size + 'px';
+      s.style.animationDuration = (2 + Math.random()*2) + 's';
+      s.style.animationDelay = (Math.random()*1) + 's';
+      sparklesContainer.appendChild(s);
+      setTimeout(() => s.remove(), 4000);
+    }
+    const sparkleInterval = setInterval(createSparkle, 120);
 
-        // ✨ Sparkles (portada)
-        const sparklesContainer = document.getElementById('sparkles');
-        function createSparkle() {
-            const s = document.createElement('div');
-            s.className = 'sparkle';
-            s.style.left = (Math.random() * 100) + 'vw';
-            s.style.top  = (Math.random() * 100) + 'vh';
-            const size = (Math.random() * 6 + 3);
-            s.style.width = s.style.height = size + 'px';
-            s.style.animationDuration = (2 + Math.random() * 2) + 's';
-            s.style.animationDelay = (Math.random() * 1) + 's';
-            sparklesContainer.appendChild(s);
-            setTimeout(() => s.remove(), 4000);
-        }
-        const sparkleInterval = setInterval(createSparkle, 120);
+    // ====== CONFETI & GLOBOS ======
+    let confettiStarted = false;
+    function startMainEffects(){ if(confettiStarted) return; confettiStarted = true; startConfetti(); startBalloons(); }
 
-        // ====== CONFETI & GLOBOS EN PÁGINA PRINCIPAL ======
-        let confettiStarted = false;
-        function startMainEffects() {
-            if (confettiStarted) return;
-            confettiStarted = true;
-            startConfetti();
-            startBalloons();
-        }
+    // 🎉 Confeti con Canvas
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const ctx = confettiCanvas.getContext('2d');
+    function resizeCanvas(){ confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas);
 
-        // 🎉 Confeti con Canvas (cae desde arriba)
-        const confettiCanvas = document.getElementById('confetti-canvas');
-        const ctx = confettiCanvas.getContext('2d');
-        function resizeCanvas() {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
+    const confettiPieces = [];
+    const MAX_CONFETTI = 400;
+    function spawnConfetti(n=6){
+      for (let i=0; i<n; i++){
+        if(confettiPieces.length >= MAX_CONFETTI) break;
+        confettiPieces.push({ x: Math.random()*confettiCanvas.width, y: -10, w: Math.random()*6 + 3, h: Math.random()*10 + 6, color: `hsl(${Math.random()*360},90%,60%)`, vy: Math.random()*2 + 1.5, vx: (Math.random()-0.5)*0.8, rot: Math.random()*Math.PI*2, vr: (Math.random()-0.5)*0.1 });
+      }
+    }
+    function drawConfetti(){
+      ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
+      for (let i=confettiPieces.length-1; i>=0; i--){
+        const p = confettiPieces[i]; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+        if (p.y - p.h > confettiCanvas.height){ confettiPieces.splice(i,1); continue; }
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
+      }
+    }
+    function loopConfetti(){ spawnConfetti(5); drawConfetti(); requestAnimationFrame(loopConfetti); }
+    function startConfetti(){ resizeCanvas(); loopConfetti(); }
 
-        const confettiPieces = [];
-        const MAX_CONFETTI = 400;
-        function spawnConfetti(n = 6) {
-            for (let i = 0; i < n; i++) {
-                if (confettiPieces.length >= MAX_CONFETTI) break;
-                confettiPieces.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: -10,
-                    w: Math.random() * 6 + 3,
-                    h: Math.random() * 10 + 6,
-                    color: `hsl(${Math.random()*360}, 90%, 60%)`,
-                    vy: Math.random() * 2 + 1.5,
-                    vx: (Math.random() - 0.5) * 0.8,
-                    rot: Math.random() * Math.PI * 2,
-                    vr: (Math.random() - 0.5) * 0.1
-                });
-            }
-        }
-        function drawConfetti() {
-            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            for (let i = confettiPieces.length - 1; i >= 0; i--) {
-                const p = confettiPieces[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.rot += p.vr;
-                // re-spawn cuando sale
-                if (p.y - p.h > confettiCanvas.height) {
-                    confettiPieces.splice(i,1);
-                    continue;
-                }
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rot);
-                ctx.fillStyle = p.color;
-                ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-                ctx.restore();
-            }
-        }
-        function loopConfetti() {
-            spawnConfetti(5);
-            drawConfetti();
-            requestAnimationFrame(loopConfetti);
-        }
-        function startConfetti() {
-            resizeCanvas();
-            loopConfetti();
-        }
+    // 🎈 Globos
+    const balloonsContainer = document.getElementById('balloons-container');
+    function spawnBalloon(){
+      const b = document.createElement('div'); b.className = 'balloon'; b.textContent = '🎈';
+      const duration = (Math.random()*6 + 8).toFixed(2) + 's';
+      const startXvw = Math.random()*100; const driftPx = (Math.random()*200 - 100) + 'px';
+      const fontRem = (Math.random()*1.3 + 1.6).toFixed(2) + 'rem'; const hue = Math.floor(Math.random()*360);
+      b.style.left = startXvw + 'vw'; b.style.setProperty('--x','0px'); b.style.setProperty('--drift', driftPx);
+      b.style.animationDuration = duration; b.style.fontSize = fontRem; b.style.filter = `hue-rotate(${hue}deg)`; balloonsContainer.appendChild(b);
+      setTimeout(() => b.remove(), parseFloat(duration)*1000 + 1000);
+    }
+    let balloonsTimer; function startBalloons(){ balloonsTimer = setInterval(spawnBalloon, 700); }
 
-        // 🎈 Globos (emoji con diferentes colores usando hue-rotate)
-        const balloonsContainer = document.getElementById('balloons-container');
-        function spawnBalloon() {
-            const b = document.createElement('div');
-            b.className = 'balloon';
-            b.textContent = '🎈';
-            const duration = (Math.random() * 6 + 8).toFixed(2) + 's';
-            const startXvw = Math.random() * 100;             // 0-100vw
-            const driftPx = (Math.random() * 200 - 100) + 'px'; // -100 a 100 px
-            const fontRem = (Math.random() * 1.3 + 1.6).toFixed(2) + 'rem';
-            const hue = Math.floor(Math.random() * 360);       // colores variados
+    // Abrir regalo
+    function openGift(){
+      try{ playSongFragment(); }catch(e){}
+      const giftWrapper = document.getElementById('giftWrapper');
+      const mainContent = document.getElementById('mainContent');
+      const customImage = document.querySelector('.custom-image');
+      if(customImage){ customImage.style.transform='scale(1.1)'; customImage.style.opacity='0.85'; }
+      for(let i=0;i<150;i++){
+        const confetti = document.createElement('div'); confetti.className='confetti'; confetti.style.left='50%'; confetti.style.top='50%';
+        confetti.style.background = `hsl(${Math.random()*360},100%,50%)`; confetti.style.animationDelay = Math.random()*0.5 + 's';
+        confetti.style.transform = `translate(-50%, -50%) translate(${(Math.random()-0.5)*500}px, ${(Math.random()-0.5)*500}px)`; giftWrapper.appendChild(confetti);
+      }
+      setTimeout(() => { clearInterval(sparkleInterval); giftWrapper.classList.add('hidden'); mainContent.classList.add('visible'); startMainEffects(); setTimeout(() => giftWrapper.remove(), 1000); }, 700);
+    }
 
-            b.style.left = startXvw + 'vw';
-            b.style.setProperty('--x', '0px');
-            b.style.setProperty('--drift', driftPx);
-            b.style.animationDuration = duration;
-            b.style.fontSize = fontRem;
-            b.style.filter = `hue-rotate(${hue}deg)`;
-            balloonsContainer.appendChild(b);
+    function showSurprise(){
+      for(let i=0;i<100;i++){
+        const confetti = document.createElement('div'); confetti.className='confetti'; confetti.style.left = Math.random()*100 + 'vw'; confetti.style.background = `hsl(${Math.random()*360},100%,50%)`; confetti.style.animationDelay = Math.random()*3 + 's'; document.body.appendChild(confetti); setTimeout(()=>confetti.remove(), 3000);
+      }
+      alert('¡Te amo! 💕 Este día es tan especial como tú. ¡Felices 21!');
+    }
 
-            setTimeout(() => b.remove(), parseFloat(duration) * 1000 + 1000);
-        }
-        let balloonsTimer;
-        function startBalloons() {
-            balloonsTimer = setInterval(spawnBalloon, 700);
-        }
+    // Carrusel
+    let currentSlide = 0; const slides = document.querySelectorAll('.carousel-item'); const indicators = document.querySelectorAll('.carousel-indicators li');
+    function showSlide(index){ slides.forEach(s=>s.classList.remove('active','carousel-item-next','carousel-item-prev')); indicators.forEach(i=>i.classList.remove('active')); slides[index].classList.add('active'); indicators[index].classList.add('active'); currentSlide=index; }
+    function changeSlide(direction){ document.querySelectorAll('.gift-card').forEach(c=>c.classList.remove('flipped')); const next = direction==='next' ? (currentSlide+1)%slides.length : (currentSlide-1+slides.length)%slides.length; slides[currentSlide].classList.remove('active'); slides[next].classList.add('active'); indicators.forEach(i=>i.classList.remove('active')); indicators[next].classList.add('active'); currentSlide=next; }
+    indicators.forEach((ind, idx) => ind.addEventListener('click', () => showSlide(idx)));
+    function flipCard(container){ const card = container.querySelector('.gift-card'); card.classList.toggle('flipped'); }
 
-        // Función para abrir el regalo
-        function openGift() {
-            // 🎵 Reproducir fragmento de canción al primer clic (gesto del usuario)
-            try { playSongFragment(); } catch (e) {}
-
-            const giftWrapper = document.getElementById('giftWrapper');
-            const mainContent = document.getElementById('mainContent');
-
-            // pequeño zoom a la imagen
-            const customImage = document.querySelector('.custom-image');
-            if (customImage) {
-                customImage.style.transform = 'scale(1.1)';
-                customImage.style.opacity = '0.85';
-            }
-
-            // confeti rápido (explosión) en portada
-            for (let i = 0; i < 150; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = '50%';
-                confetti.style.top = '50%';
-                confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
-                confetti.style.animationDelay = Math.random()*0.5 + 's';
-                confetti.style.transform = `translate(-50%, -50%) translate(${(Math.random()-0.5)*500}px, ${(Math.random()-0.5)*500}px)`;
-                giftWrapper.appendChild(confetti);
-            }
-
-            setTimeout(() => {
-                clearInterval(sparkleInterval);
-                giftWrapper.classList.add('hidden');
-                mainContent.classList.add('visible');
-
-                // Iniciar efectos principales
-                startMainEffects();
-
-                setTimeout(() => giftWrapper.remove(), 1000);
-            }, 700);
-        }
-
-        // Sorpresa (botón dentro de deseos)
-        function showSurprise() {
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random()*100 + 'vw';
-                confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
-                confetti.style.animationDelay = Math.random()*3 + 's';
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 3000);
-            }
-            alert('¡Te amo! 💕 Este día es tan especial como tú. ¡Felices 21!');
-        }
-
-        // Carrusel actualizado para 3 slides
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-item');
-        const indicators = document.querySelectorAll('.carousel-indicators li');
-
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active','carousel-item-next','carousel-item-prev'));
-            indicators.forEach(ind => ind.classList.remove('active'));
-            slides[index].classList.add('active');
-            indicators[index].classList.add('active');
-            currentSlide = index;
-        }
-        function changeSlide(direction) {
-            document.querySelectorAll('.gift-card').forEach(card => card.classList.remove('flipped'));
-            const next = direction === 'next' ? (currentSlide + 1) % slides.length : (currentSlide - 1 + slides.length) % slides.length;
-            slides[currentSlide].classList.remove('active');
-            slides[next].classList.add('active');
-            indicators.forEach(ind => ind.classList.remove('active'));
-            indicators[next].classList.add('active');
-            currentSlide = next;
-        }
-        indicators.forEach((ind, idx) => ind.addEventListener('click', () => showSlide(idx)));
-
-        // Voltear tarjetas
-        function flipCard(container) {
-            const card = container.querySelector('.gift-card');
-            card.classList.toggle('flipped');
-        }
-
-        // Exponer funciones globales
-        window.openGift   = openGift;
-        window.changeSlide= changeSlide;
-        window.flipCard   = flipCard;
-        window.showSurprise = showSurprise;
-    </script>
+    // Exponer
+    window.openGift = openGift; window.changeSlide = changeSlide; window.flipCard = flipCard; window.showSurprise = showSurprise;
+  </script>
 </body>
 </html>
-
-
-
