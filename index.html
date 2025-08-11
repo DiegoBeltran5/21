@@ -268,7 +268,7 @@
   <script>
     // ====== AUDIO: reproducir un fragmento al abrir el regalo ======
     const SONG_START_SEC = 129; const SONG_DURATION_SEC = 440;
-    function playSongFragment(){ const a = document.getElementById('bgSong'); if(!a) return; const doPlay = () => { try{ a.currentTime = SONG_START_SEC; }catch(e){} a.volume = 0.70; const p = a.play(); if (p && p.catch) p.catch(()=>{}); setTimeout(() => { try{ a.pause(); }catch(e){} }, SONG_DURATION_SEC * 1000); }; if (a.readyState >= 1) { doPlay(); } else { a.addEventListener('loadedmetadata', doPlay, { once: true }); a.load(); } }
+    function playSongFragment(){ const a = document.getElementById('bgSong'); if(!a) return; const doPlay = () => { try{ a.currentTime = SONG_START_SEC; }catch(e){} a.volume = 0.50; const p = a.play(); if (p && p.catch) p.catch(()=>{}); setTimeout(() => { try{ a.pause(); }catch(e){} }, SONG_DURATION_SEC * 1000); }; if (a.readyState >= 1) { doPlay(); } else { a.addEventListener('loadedmetadata', doPlay, { once: true }); a.load(); } }
 
     // ✨ Sparkles (portada)
     const sparklesContainer = document.getElementById('sparkles');
@@ -311,6 +311,7 @@
   </script>
 </body>
 </html>
+
 
 
 
