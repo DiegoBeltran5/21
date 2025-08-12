@@ -290,10 +290,10 @@
     // === NUEVO: decaimiento lineal de la tasa de aparición ===
     // Piezas por segundo al inicio y duración del decaimiento (en ms)
     let CONFETTI_PPS_START = 240;        // puedes subir/bajar este valor
-    const CONFETTI_DECAY_MS = 60000;     // 30s hasta caer a 0 (ajústalo a gusto)
+    const CONFETTI_DECAY_MS = 50000;     // 30s hasta caer a 0 (ajústalo a gusto)
 
     let confettiStart = 0; let lastTs = 0; let spawnAccumulator = 0;
-    function loopConfetti(ts){ if(!lastTs) lastTs = ts; const dt = (ts - lastTs) / 1000; lastTs = ts; const elapsed = ts - confettiStart; let factor = Math.max(0.1, 1 - (elapsed / CONFETTI_DECAY_MS)); // baseline opcional: factor = Math.max(0.15, factor);
+    function loopConfetti(ts){ if(!lastTs) lastTs = ts; const dt = (ts - lastTs) / 1000; lastTs = ts; const elapsed = ts - confettiStart; let factor = Math.max(0.05, 1 - (elapsed / CONFETTI_DECAY_MS)); // baseline opcional: factor = Math.max(0.15, factor);
       const currentRate = CONFETTI_PPS_START * factor; spawnAccumulator += currentRate * dt; const toSpawn = Math.floor(spawnAccumulator); if (toSpawn > 0){ spawnConfetti(toSpawn); spawnAccumulator -= toSpawn; } drawConfetti(); requestAnimationFrame(loopConfetti); }
     function startConfetti(){ resizeCanvas(); confettiStart = performance.now(); lastTs = 0; spawnAccumulator = 0; requestAnimationFrame(loopConfetti); }
 
@@ -320,4 +320,5 @@
   </script>
 </body>
 </html>
+
 
