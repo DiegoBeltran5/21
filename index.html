@@ -278,7 +278,7 @@
     // ====== CONFETI & GLOBOS ======
     let confettiStarted = false; function startMainEffects(){ if(confettiStarted) return; confettiStarted = true; startConfetti(); startBalloons(); }
 
-    // 🎉 Confeti con Canvas
+    // 🎉 Confeti con Canvas (con decaimiento progresivo)
     const confettiCanvas = document.getElementById('confetti-canvas'); const ctx = confettiCanvas.getContext('2d');
     function resizeCanvas(){ confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
@@ -286,8 +286,16 @@
     const confettiPieces = []; const MAX_CONFETTI = 400;
     function spawnConfetti(n=6){ for (let i=0; i<n; i++){ if(confettiPieces.length >= MAX_CONFETTI) break; confettiPieces.push({ x: Math.random()*confettiCanvas.width, y: -10, w: Math.random()*6 + 3, h: Math.random()*10 + 6, color: `hsl(${Math.random()*360},90%,60%)`, vy: Math.random()*2 + 1.5, vx: (Math.random()-0.5)*0.8, rot: Math.random()*Math.PI*2, vr: (Math.random()-0.5)*0.1 }); } }
     function drawConfetti(){ ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height); for (let i=confettiPieces.length-1; i>=0; i--){ const p = confettiPieces[i]; p.x += p.vx; p.y += p.vy; p.rot += p.vr; if (p.y - p.h > confettiCanvas.height){ confettiPieces.splice(i,1); continue; } ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore(); } }
-    function loopConfetti(){ spawnConfetti(5); drawConfetti(); requestAnimationFrame(loopConfetti); }
-    function startConfetti(){ resizeCanvas(); loopConfetti(); }
+
+    // === NUEVO: decaimiento lineal de la tasa de aparición ===
+    // Piezas por segundo al inicio y duración del decaimiento (en ms)
+    let CONFETTI_PPS_START = 240;        // puedes subir/bajar este valor
+    const CONFETTI_DECAY_MS = 60000;     // 30s hasta caer a 0 (ajústalo a gusto)
+
+    let confettiStart = 0; let lastTs = 0; let spawnAccumulator = 0;
+    function loopConfetti(ts){ if(!lastTs) lastTs = ts; const dt = (ts - lastTs) / 1000; lastTs = ts; const elapsed = ts - confettiStart; let factor = Math.max(0.1, 1 - (elapsed / CONFETTI_DECAY_MS)); // baseline opcional: factor = Math.max(0.15, factor);
+      const currentRate = CONFETTI_PPS_START * factor; spawnAccumulator += currentRate * dt; const toSpawn = Math.floor(spawnAccumulator); if (toSpawn > 0){ spawnConfetti(toSpawn); spawnAccumulator -= toSpawn; } drawConfetti(); requestAnimationFrame(loopConfetti); }
+    function startConfetti(){ resizeCanvas(); confettiStart = performance.now(); lastTs = 0; spawnAccumulator = 0; requestAnimationFrame(loopConfetti); }
 
     // 🎈 Globos
     const balloonsContainer = document.getElementById('balloons-container');
@@ -304,18 +312,12 @@
     indicators.forEach((ind, idx) => ind.addEventListener('click', () => showSlide(idx)));
     function flipCard(container){ const card = container.querySelector('.gift-card'); card.classList.toggle('flipped'); }
 
+    // Evitar error si se llama showSurprise desde otro script
+    function showSurprise(){}
+
     // Exponer
     window.openGift = openGift; window.changeSlide = changeSlide; window.flipCard = flipCard; window.showSurprise = showSurprise;
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
 
